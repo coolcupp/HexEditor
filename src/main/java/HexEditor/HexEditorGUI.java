@@ -37,11 +37,30 @@ public class HexEditorGUI extends JFrame {
         }
 
         JTable table = new JTable(tableModel);
-        table.getTableHeader().setReorderingAllowed(false); // запрет на перетаскивание столбцов
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); // запрет на изменение размера столбцов
+        // запрет на перетаскивание столбцов
+        table.getTableHeader().setReorderingAllowed(false);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         // установка режима выделения по ячейкам
         table.setCellSelectionEnabled(true);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+
+        // TODO create a textArea for file viewer
+        JTextArea textArea = new JTextArea();
+        textArea.setLineWrap(true); // включаем перенос строк
+        textArea.setWrapStyleWord(true); // перенос по словам
+        textArea.setFont(new Font("Arial", Font.PLAIN, 14)); // установка шрифта
+        textArea.setEditable(false);
+
+
+        // create Scroll Pane and add table to it
+        JScrollPane scrollPane = new JScrollPane(table);
+        this.add(scrollPane, BorderLayout.CENTER);
+
+        // create Scroll Pane for textArea
+        JScrollPane scrollPaneTextArea = new JScrollPane(textArea);
+        this.add(scrollPaneTextArea, BorderLayout.EAST);
+
 
 
         // add action listeners to file buttons
@@ -52,8 +71,11 @@ public class HexEditorGUI extends JFrame {
                 int returnValue = fileChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION){
                     File selectedFile = fileChooser.getSelectedFile();
-                    OpenFile openFile = new OpenFile(table); // create a object open file
+                    OpenFile openFile = new OpenFile(table); // create an object open file
                     openFile.loadFile(selectedFile);
+                    // TODO tableViewer
+                    TableViewer tableViewer = new TableViewer(table, textArea);
+                    tableViewer.updateTextArea();
                 }
             }
         });
@@ -63,6 +85,7 @@ public class HexEditorGUI extends JFrame {
                 JFileChooser fileChooser = new JFileChooser();
                 int returnValue = fileChooser.showSaveDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION){
+                    // TODO
 //                    SaveFile saveFile = new SaveFile();
 //                    saveFile.saveToFile(tableModel);
 //                    File selectedFile = fileChooser.getSelectedFile();
@@ -82,11 +105,6 @@ public class HexEditorGUI extends JFrame {
 
 
 
-
-
-        // create Scroll Pane and add table to it
-        JScrollPane scrollPane = new JScrollPane(table);
-        this.add(scrollPane, BorderLayout.CENTER);
 
 
 
