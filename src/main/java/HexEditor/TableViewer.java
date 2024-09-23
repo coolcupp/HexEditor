@@ -9,7 +9,6 @@ public class TableViewer {
         this.textArea = textArea;
         this.table = table;
         updateTextArea();
-        // TODO слушатель выбора строки table
     }
 
     public void updateTextArea(){
