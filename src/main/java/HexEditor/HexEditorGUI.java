@@ -45,7 +45,7 @@ public class HexEditorGUI extends JFrame {
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 
-        // TODO create a textArea for file viewer
+        // create a text area for file view
         JTextArea textArea = new JTextArea();
         textArea.setLineWrap(true); // включаем перенос строк
 //        textArea.setWrapStyleWord(true); // перенос по словам
