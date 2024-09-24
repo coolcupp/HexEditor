@@ -48,19 +48,22 @@ public class HexEditorGUI extends JFrame {
         // TODO create a textArea for file viewer
         JTextArea textArea = new JTextArea();
         textArea.setLineWrap(true); // включаем перенос строк
-        textArea.setWrapStyleWord(true); // перенос по словам
+//        textArea.setWrapStyleWord(true); // перенос по словам
         textArea.setFont(new Font("Arial", Font.PLAIN, 14)); // установка шрифта
-        textArea.setEditable(false);
+        textArea.setEditable(true);
 
 
         // create Scroll Pane and add table to it
         JScrollPane scrollPane = new JScrollPane(table);
         this.add(scrollPane, BorderLayout.CENTER);
 
+
         // create Scroll Pane for textArea
         JScrollPane scrollPaneTextArea = new JScrollPane(textArea);
         this.add(scrollPaneTextArea, BorderLayout.EAST);
+        scrollPaneTextArea.setPreferredSize(new Dimension(300, scrollPaneTextArea.getHeight()));
 
+        new TextAreaUpdater(textArea, table);
 
 
         // add action listeners to file buttons
@@ -73,9 +76,6 @@ public class HexEditorGUI extends JFrame {
                     File selectedFile = fileChooser.getSelectedFile();
                     OpenFile openFile = new OpenFile(table); // create an object open file
                     openFile.loadFile(selectedFile);
-                    // TODO tableViewer
-                    TableViewer tableViewer = new TableViewer(table, textArea);
-                    tableViewer.updateTextArea();
                 }
             }
         });
