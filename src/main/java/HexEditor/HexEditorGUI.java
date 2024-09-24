@@ -53,15 +53,41 @@ public class HexEditorGUI extends JFrame {
         textArea.setEditable(true);
 
 
-        // create Scroll Pane and add table to it
-        JScrollPane scrollPane = new JScrollPane(table);
-        this.add(scrollPane, BorderLayout.CENTER);
+        // панель для таблицы и текстового поля
+        JPanel tbltxtPanel = new JPanel(new GridLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
 
 
-        // create Scroll Pane for textArea
+        // добавление таблицы в панель
+        gbc.gridx = 0; // столбец
+        gbc.gridy = 0; // строка
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        JScrollPane scrollPaneTable = new JScrollPane(table);
+        tbltxtPanel.add(scrollPaneTable, gbc);
+
+        // Добавление текстового поля в панель
+        gbc.gridy = 1; // Перемещение на следующую строку
+        gbc.weighty = 0; // Нет дополнительного веса
         JScrollPane scrollPaneTextArea = new JScrollPane(textArea);
-        this.add(scrollPaneTextArea, BorderLayout.EAST);
-        scrollPaneTextArea.setPreferredSize(new Dimension(300, scrollPaneTextArea.getHeight()));
+        tbltxtPanel.add(scrollPaneTextArea, gbc);
+
+        // Добавление панели в главное окно
+        this.add(tbltxtPanel, BorderLayout.CENTER);
+
+
+
+
+//        // create Scroll Pane and add table to it
+//        JScrollPane scrollPane = new JScrollPane(table);
+//        this.add(scrollPane, BorderLayout.CENTER);
+//
+//
+//        // create Scroll Pane for textArea
+//        JScrollPane scrollPaneTextArea = new JScrollPane(textArea);
+//        this.add(scrollPaneTextArea, BorderLayout.EAST);
+//        scrollPaneTextArea.setPreferredSize(new Dimension(300, scrollPaneTextArea.getHeight()));
 
         new TextAreaUpdater(textArea, table);
 
