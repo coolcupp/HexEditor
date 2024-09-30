@@ -8,6 +8,9 @@ import java.awt.*;
 import java.io.File;
 
 public class HexEditorGUI extends JFrame {
+    private JTextArea textArea;
+    private JTable table;
+
     public HexEditorGUI(){
         this.setTitle("Hex editor by coolcupp");
         this.setSize(1200, 800);
@@ -36,17 +39,17 @@ public class HexEditorGUI extends JFrame {
             tableModel.addColumn(String.valueOf(i));
         }
 
-        JTable table = new JTable(tableModel);
+        table = new JTable(tableModel);
         // запрет на перетаскивание столбцов
         table.getTableHeader().setReorderingAllowed(false);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         // установка режима выделения по ячейкам
         table.setCellSelectionEnabled(true);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 
         // create a text area for file view
-        JTextArea textArea = new JTextArea();
+        textArea = new JTextArea();
         textArea.setLineWrap(true); // включаем перенос строк
 //        textArea.setWrapStyleWord(true); // перенос по словам
         textArea.setFont(new Font("Arial", Font.PLAIN, 14)); // установка шрифта
@@ -63,8 +66,9 @@ public class HexEditorGUI extends JFrame {
         this.add(scrollPaneTextArea, BorderLayout.EAST);
         scrollPaneTextArea.setPreferredSize(new Dimension(300, scrollPaneTextArea.getHeight()));
 
-        new TextAreaUpdater(textArea, table);
 
+        // textAreaUpdater
+        CellHighlighterTextAreaUpdater cellHighlighterTextAreaUpdater = new CellHighlighterTextAreaUpdater(textArea, table);
 
         // add action listeners to file buttons
         openItem.addActionListener(new ActionListener() {
@@ -102,11 +106,6 @@ public class HexEditorGUI extends JFrame {
                 System.exit(0);
             }
         });
-
-
-
-
-
 
         this.setVisible(true);
     }
