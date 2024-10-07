@@ -40,6 +40,7 @@ public class OpenFile {
                 tableModel.addRow(row);
                 address += 16;
             }
+
             } catch(IOException e){
                 JOptionPane.showMessageDialog(null, "Ошибка чтения файла: " + e.getMessage());
             }

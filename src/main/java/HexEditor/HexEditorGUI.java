@@ -1,11 +1,15 @@
 package HexEditor;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.*;
 import java.io.File;
+import java.util.Arrays;
 
 public class HexEditorGUI extends JFrame {
     private JTextArea textArea;
@@ -46,6 +50,8 @@ public class HexEditorGUI extends JFrame {
         // установка режима выделения по ячейкам
         table.setCellSelectionEnabled(true);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setGridColor(Color.GRAY);
+
 
 
         // create a text area for file view
@@ -56,19 +62,39 @@ public class HexEditorGUI extends JFrame {
         textArea.setEditable(true);
 
 
+
+
         // create Scroll Pane and add table to it
         JScrollPane scrollPane = new JScrollPane(table);
-        this.add(scrollPane, BorderLayout.CENTER);
+
 
 
         // create Scroll Pane for textArea
         JScrollPane scrollPaneTextArea = new JScrollPane(textArea);
-        this.add(scrollPaneTextArea, BorderLayout.EAST);
+
         scrollPaneTextArea.setPreferredSize(new Dimension(300, scrollPaneTextArea.getHeight()));
 
 
         // textAreaUpdater
         CellHighlighterTextAreaUpdater cellHighlighterTextAreaUpdater = new CellHighlighterTextAreaUpdater(textArea, table);
+
+
+        // create lower panel
+        JPanel lowerPanel = new JPanel(new BorderLayout());
+        lowerPanel.setPreferredSize(new Dimension(100, 100));
+
+
+
+        this.add(scrollPane, BorderLayout.CENTER);
+        this.add(scrollPaneTextArea, BorderLayout.EAST);
+        this.add(lowerPanel, BorderLayout.SOUTH);
+
+
+
+
+
+
+
 
         // add action listeners to file buttons
         openItem.addActionListener(new ActionListener() {
