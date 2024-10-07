@@ -1,19 +1,15 @@
 package HexEditor;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.*;
 import java.io.File;
-import java.util.Arrays;
+
 
 public class HexEditorGUI extends JFrame {
     private JTextArea textArea;
-    private JTable table;
 
     public HexEditorGUI(){
         this.setTitle("Hex editor by coolcupp");
@@ -43,14 +39,15 @@ public class HexEditorGUI extends JFrame {
             tableModel.addColumn(String.valueOf(i));
         }
 
-        table = new JTable(tableModel);
+        CustomTable table = new CustomTable(tableModel);
         // запрет на перетаскивание столбцов
         table.getTableHeader().setReorderingAllowed(false);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        // установка режима выделения по ячейкам
-        table.setCellSelectionEnabled(true);
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.setGridColor(Color.GRAY);
+//        // установка режима выделения по ячейкам
+//        table.setCellSelectionEnabled(true);
+//        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setColumnSelectionAllowed(true);
+        table.setRowSelectionAllowed(true);
 
 
 
@@ -60,6 +57,8 @@ public class HexEditorGUI extends JFrame {
 //        textArea.setWrapStyleWord(true); // перенос по словам
         textArea.setFont(new Font("Arial", Font.PLAIN, 14)); // установка шрифта
         textArea.setEditable(true);
+
+
 
 
 
@@ -88,6 +87,7 @@ public class HexEditorGUI extends JFrame {
         this.add(scrollPane, BorderLayout.CENTER);
         this.add(scrollPaneTextArea, BorderLayout.EAST);
         this.add(lowerPanel, BorderLayout.SOUTH);
+
 
 
 
