@@ -56,19 +56,11 @@ public class HexEditorGUI extends JFrame {
 
         // create table model and table
         DefaultTableModel tableModel = new DefaultTableModel();
-//        tableModel.addColumn("№");
-//        tableModel.addColumn("Adress");
-//        for (int i = 1; i <= Integer.parseInt(colsField.getText()); i++){
-//            tableModel.addColumn(String.valueOf(i));
-//        }
 
         CustomTable table = new CustomTable(tableModel);
         // запрет на перетаскивание столбцов
         table.getTableHeader().setReorderingAllowed(false);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-//        // установка режима выделения по ячейкам
-//        table.setCellSelectionEnabled(true);
-//        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.setColumnSelectionAllowed(true);
         table.setRowSelectionAllowed(true);
 
@@ -84,7 +76,8 @@ public class HexEditorGUI extends JFrame {
 
 
         // textAreaUpdater
-        CellHighlighterTextAreaUpdater cellHighlighterTextAreaUpdater = new CellHighlighterTextAreaUpdater(textArea, table);
+        CellHighlighterTextAreaUpdater cellHighlighterTextAreaUpdater =
+                new CellHighlighterTextAreaUpdater(textArea, table);
 
 
         // create lower panel
@@ -107,7 +100,13 @@ public class HexEditorGUI extends JFrame {
 
 
 
-
+        resizeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TableResizer tableResizer = new TableResizer(table, colsField);
+                tableResizer.resizeTable();
+            }
+        });
         // add action listeners to file buttons
         openItem.addActionListener(new ActionListener() {
             @Override
@@ -146,5 +145,6 @@ public class HexEditorGUI extends JFrame {
         });
 
         this.setVisible(true);
+
     }
 }
