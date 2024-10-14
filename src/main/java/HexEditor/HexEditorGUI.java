@@ -31,24 +31,6 @@ public class HexEditorGUI extends JFrame {
         this.setJMenuBar(menuBar);
 
 
-        // create table model and table
-        DefaultTableModel tableModel = new DefaultTableModel();
-        tableModel.addColumn("№");
-        tableModel.addColumn("Adress");
-        for (int i = 1; i <= 16; i++){
-            tableModel.addColumn(String.valueOf(i));
-        }
-
-        CustomTable table = new CustomTable(tableModel);
-        // запрет на перетаскивание столбцов
-        table.getTableHeader().setReorderingAllowed(false);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-//        // установка режима выделения по ячейкам
-//        table.setCellSelectionEnabled(true);
-//        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.setColumnSelectionAllowed(true);
-        table.setRowSelectionAllowed(true);
-
 
 
         // create a text area for file view
@@ -63,6 +45,34 @@ public class HexEditorGUI extends JFrame {
 
 
 
+
+        JPanel lowerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        lowerPanel.setPreferredSize(new Dimension(100, 100));
+        JTextField colsField = new JTextField(5);
+        colsField.setText("16");
+        JButton resizeButton = new JButton("Confirm");
+        JLabel colsLabel = new JLabel("Columns:");
+
+
+        // create table model and table
+        DefaultTableModel tableModel = new DefaultTableModel();
+//        tableModel.addColumn("№");
+//        tableModel.addColumn("Adress");
+//        for (int i = 1; i <= Integer.parseInt(colsField.getText()); i++){
+//            tableModel.addColumn(String.valueOf(i));
+//        }
+
+        CustomTable table = new CustomTable(tableModel);
+        // запрет на перетаскивание столбцов
+        table.getTableHeader().setReorderingAllowed(false);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+//        // установка режима выделения по ячейкам
+//        table.setCellSelectionEnabled(true);
+//        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setColumnSelectionAllowed(true);
+        table.setRowSelectionAllowed(true);
+
+
         // create Scroll Pane and add table to it
         JScrollPane scrollPane = new JScrollPane(table);
 
@@ -71,12 +81,6 @@ public class HexEditorGUI extends JFrame {
 
         scrollPaneTextArea.setPreferredSize(new Dimension(300, scrollPaneTextArea.getHeight()));
 
-        JPanel lowerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        lowerPanel.setPreferredSize(new Dimension(100, 100));
-        JTextField colsField = new JTextField(5);
-        colsField.setText("16");
-        JButton resizeButton = new JButton("Confirm");
-        JLabel colsLabel = new JLabel("Columns:");
 
 
         // textAreaUpdater
@@ -112,7 +116,7 @@ public class HexEditorGUI extends JFrame {
                 int returnValue = fileChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION){
                     File selectedFile = fileChooser.getSelectedFile();
-                    OpenFile openFile = new OpenFile(table); // create an object open file
+                    OpenFile openFile = new OpenFile(table, colsField); // create an object open file
                     openFile.loadFile(selectedFile);
                 }
             }
