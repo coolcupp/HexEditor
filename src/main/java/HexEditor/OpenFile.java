@@ -11,6 +11,7 @@ public class OpenFile {
     private JTable table;
     private DefaultTableModel tableModel;
 
+
     public OpenFile(JTable table) {
         this.table = table;
         this.tableModel = (DefaultTableModel) table.getModel();

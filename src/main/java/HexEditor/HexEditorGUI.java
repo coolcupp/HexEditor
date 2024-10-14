@@ -66,12 +66,17 @@ public class HexEditorGUI extends JFrame {
         // create Scroll Pane and add table to it
         JScrollPane scrollPane = new JScrollPane(table);
 
-
-
         // create Scroll Pane for textArea
         JScrollPane scrollPaneTextArea = new JScrollPane(textArea);
 
         scrollPaneTextArea.setPreferredSize(new Dimension(300, scrollPaneTextArea.getHeight()));
+
+        JPanel lowerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        lowerPanel.setPreferredSize(new Dimension(100, 100));
+        JTextField colsField = new JTextField(5);
+        colsField.setText("16");
+        JButton resizeButton = new JButton("Confirm");
+        JLabel colsLabel = new JLabel("Columns:");
 
 
         // textAreaUpdater
@@ -79,8 +84,11 @@ public class HexEditorGUI extends JFrame {
 
 
         // create lower panel
-        JPanel lowerPanel = new JPanel(new BorderLayout());
-        lowerPanel.setPreferredSize(new Dimension(100, 100));
+
+        lowerPanel.add(colsLabel);
+        lowerPanel.add(colsField);
+        lowerPanel.add(resizeButton);
+
 
 
 
