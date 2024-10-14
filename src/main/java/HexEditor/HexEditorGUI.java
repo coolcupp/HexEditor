@@ -31,21 +31,13 @@ public class HexEditorGUI extends JFrame {
         this.setJMenuBar(menuBar);
 
 
-
-
         // create a text area for file view
         textArea = new JTextArea();
         textArea.setLineWrap(true); // включаем перенос строк
-//        textArea.setWrapStyleWord(true); // перенос по словам
         textArea.setFont(new Font("Arial", Font.PLAIN, 14)); // установка шрифта
         textArea.setEditable(true);
 
-
-
-
-
-
-
+        // create lower panel
         JPanel lowerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         lowerPanel.setPreferredSize(new Dimension(100, 100));
         JTextField colsField = new JTextField(5);
@@ -53,53 +45,41 @@ public class HexEditorGUI extends JFrame {
         JButton resizeButton = new JButton("Confirm");
         JLabel colsLabel = new JLabel("Columns:");
 
-
         // create table model and table
         DefaultTableModel tableModel = new DefaultTableModel();
-
         CustomTable table = new CustomTable(tableModel);
         // запрет на перетаскивание столбцов
         table.getTableHeader().setReorderingAllowed(false);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        // дает возможность добавления горизонтального ползунка
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table.setColumnSelectionAllowed(true);
         table.setRowSelectionAllowed(true);
 
 
         // create Scroll Pane and add table to it
-        JScrollPane scrollPane = new JScrollPane(table);
+        JScrollPane scrollPaneTable = new JScrollPane(table);
 
         // create Scroll Pane for textArea
         JScrollPane scrollPaneTextArea = new JScrollPane(textArea);
-
         scrollPaneTextArea.setPreferredSize(new Dimension(300, scrollPaneTextArea.getHeight()));
 
-
-
         // textAreaUpdater
-        CellHighlighterTextAreaUpdater cellHighlighterTextAreaUpdater =
-                new CellHighlighterTextAreaUpdater(textArea, table);
+        new CellHighlighterTextAreaUpdater(textArea, table);
 
 
         // create lower panel
-
         lowerPanel.add(colsLabel);
         lowerPanel.add(colsField);
         lowerPanel.add(resizeButton);
 
 
-
-
-        this.add(scrollPane, BorderLayout.CENTER);
+        // adding components to frame
+        this.add(scrollPaneTable, BorderLayout.CENTER);
         this.add(scrollPaneTextArea, BorderLayout.EAST);
         this.add(lowerPanel, BorderLayout.SOUTH);
 
 
-
-
-
-
-
-
+        // add resize Action listener
         resizeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -120,6 +100,7 @@ public class HexEditorGUI extends JFrame {
                 }
             }
         });
+        // add save action Listener
         saveItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
