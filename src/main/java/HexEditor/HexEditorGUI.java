@@ -5,6 +5,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.File;
 
 
@@ -67,10 +69,47 @@ public class HexEditorGUI extends JFrame {
         new CellHighlighterTextAreaUpdater(textArea, table);
 
 
-        // create lower panel
+        JTextField searchField = new JTextField("Поле для поиска", 20);
+        searchField.setForeground(Color.GRAY); // Установка серого цвета текста
+
+        // Добавление FocusListener
+        searchField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (searchField.getText().equals("Поле для поиска")) {
+                    searchField.setText("");
+                    searchField.setForeground(Color.BLACK); // Изменение цвета текста на черный
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (searchField.getText().isEmpty()) {
+                    searchField.setText("Поле для поиска");
+                    searchField.setForeground(Color.GRAY); // Возвращение серого цвета текста
+                }
+            }
+        });
+
+        JRadioButton exactMatchButton = new JRadioButton("Точный поиск");
+        JRadioButton maskMatchButton = new JRadioButton("Поиск по маске");
+        ButtonGroup group = new ButtonGroup();
+        group.add(exactMatchButton);
+        group.add(maskMatchButton);
+        exactMatchButton.setSelected(true); // Выбор по умолчанию
+        JButton searchButton = new JButton("Поиск");
+
+        // add components to lowerPanel
         lowerPanel.add(colsLabel);
         lowerPanel.add(colsField);
         lowerPanel.add(resizeButton);
+        lowerPanel.add(searchField);
+        lowerPanel.add(exactMatchButton);
+        lowerPanel.add(maskMatchButton);
+        lowerPanel.add(searchButton);
+
+
+
 
 
         // adding components to frame
