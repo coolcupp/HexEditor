@@ -99,4 +99,5 @@ public class CustomTable extends JTable {
     public Set<Point> getSelectedCells() {
         return selectedCells;
     }
+
 }

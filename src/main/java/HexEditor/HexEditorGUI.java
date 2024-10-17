@@ -113,6 +113,7 @@ public class HexEditorGUI extends JFrame {
 
 
 
+
         ByteSearch byteSearch =
                 new ByteSearch(table, searchField, exactMatchButton, maskMatchButton, textArea);
 
