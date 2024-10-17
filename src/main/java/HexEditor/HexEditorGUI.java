@@ -12,6 +12,7 @@ import java.io.File;
 
 public class HexEditorGUI extends JFrame {
     private JTextArea textArea;
+    private CellHighlighterTextAreaUpdater cellHighlighterTextAreaUpdater;
 
     public HexEditorGUI(){
         this.setTitle("Hex editor by coolcupp");
@@ -53,7 +54,8 @@ public class HexEditorGUI extends JFrame {
         // запрет на перетаскивание столбцов
         table.getTableHeader().setReorderingAllowed(false);
         // дает возможность добавления горизонтального ползунка
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        // table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table.setColumnSelectionAllowed(true);
         table.setRowSelectionAllowed(true);
 
@@ -66,7 +68,7 @@ public class HexEditorGUI extends JFrame {
         scrollPaneTextArea.setPreferredSize(new Dimension(300, scrollPaneTextArea.getHeight()));
 
         // textAreaUpdater
-        new CellHighlighterTextAreaUpdater(textArea, table);
+        cellHighlighterTextAreaUpdater = new CellHighlighterTextAreaUpdater(textArea, table);
 
 
         JTextField searchField = new JTextField("Поле для поиска", 20);
@@ -111,13 +113,21 @@ public class HexEditorGUI extends JFrame {
 
 
 
+        ByteSearch byteSearch =
+                new ByteSearch(table, searchField, exactMatchButton, maskMatchButton, textArea);
 
         // adding components to frame
         this.add(scrollPaneTable, BorderLayout.CENTER);
         this.add(scrollPaneTextArea, BorderLayout.EAST);
         this.add(lowerPanel, BorderLayout.SOUTH);
 
-
+        // add searchButton listener
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                byteSearch.performSearch();
+            }
+        });
         // add resize Action listener
         resizeButton.addActionListener(new ActionListener() {
             @Override
