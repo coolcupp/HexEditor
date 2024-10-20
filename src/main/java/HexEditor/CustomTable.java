@@ -756,24 +756,48 @@ public class CustomTable extends JTable {
         });
 
         addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                int row = rowAtPoint(e.getPoint());
-                int col = columnAtPoint(e.getPoint());
+//            @Override
+//            public void mouseDragged(MouseEvent e) {
+//                int row = rowAtPoint(e.getPoint());
+//                int col = columnAtPoint(e.getPoint());
+//
+//                if (selectionMode == 0) {
+//                    if (row >= 0 && row < getRowCount() && col >= 0 && col < getColumnCount() &&
+//                            tableModel.getValueAt(row, col) != null && col > 1) {
+//                        selectedCells.clear();
+//                        if (row == startRow) {
+//                            fillRowSelection(startRow, startCol, col);
+//                        } else {
+//                            fillStandardSelection(startRow, startCol, row, col);
+//                        }
+//                        repaint();
+//                    }
+//                }
+//            }
+@Override
+public void mouseDragged(MouseEvent e) {
+    int row = rowAtPoint(e.getPoint());
+    int col = columnAtPoint(e.getPoint());
 
-                if (selectionMode == 0) {
-                    if (row >= 0 && row < getRowCount() && col >= 0 && col < getColumnCount() &&
-                            tableModel.getValueAt(row, col) != null && col > 1) {
-                        selectedCells.clear();
-                        if (row == startRow) {
-                            fillRowSelection(startRow, startCol, col);
-                        } else {
-                            fillStandardSelection(startRow, startCol, row, col);
-                        }
-                        repaint();
-                    }
+    if (selectionMode == 0) {
+        if (row >= 0 && row < getRowCount() && col >= 0 && col < getColumnCount() &&
+                tableModel.getValueAt(row, col) != null && col > 1) {
+            selectedCells.clear();
+            if (startRow == row) {
+                fillRowSelection(startRow, startCol, col);
+            } else {
+                // Обработка обратного выделения
+                if (row < startRow) {
+                    fillStandardSelection(row, col, startRow, startCol);
+                } else {
+                    fillStandardSelection(startRow, startCol, row, col);
                 }
             }
+            repaint();
+        }
+    }
+}
+
         });
     }
 
