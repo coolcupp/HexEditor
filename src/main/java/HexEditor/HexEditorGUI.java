@@ -101,6 +101,16 @@ public class HexEditorGUI extends JFrame {
         exactMatchButton.setSelected(true); // Выбор по умолчанию
         JButton searchButton = new JButton("Поиск");
 
+
+        // make combobox
+        JComboBox<String> modeComboBox = new JComboBox<>(new String[]{"Стандарт", "2 байта", "4 байта", "8 байт"});
+        modeComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                table.setSelectionMode(modeComboBox.getSelectedIndex());
+            }
+        });
+
         // add components to lowerPanel
         lowerPanel.add(colsLabel);
         lowerPanel.add(colsField);
@@ -109,6 +119,9 @@ public class HexEditorGUI extends JFrame {
         lowerPanel.add(exactMatchButton);
         lowerPanel.add(maskMatchButton);
         lowerPanel.add(searchButton);
+        lowerPanel.add(modeComboBox);
+
+
 
 
 
