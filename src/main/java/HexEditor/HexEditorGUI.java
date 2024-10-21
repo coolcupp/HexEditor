@@ -2,12 +2,12 @@ package HexEditor;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.xml.crypto.Data;
+import java.awt.event.*;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.io.DataInput;
 import java.io.File;
+import java.util.Set;
 
 
 public class HexEditorGUI extends JFrame {
@@ -111,6 +111,10 @@ public class HexEditorGUI extends JFrame {
             }
         });
 
+        JTextArea selectionView = new JTextArea();
+        SelectionInfo selectionInfo = new SelectionInfo(table, selectionView);
+
+
         // add components to lowerPanel
         lowerPanel.add(colsLabel);
         lowerPanel.add(colsField);
@@ -120,7 +124,7 @@ public class HexEditorGUI extends JFrame {
         lowerPanel.add(maskMatchButton);
         lowerPanel.add(searchButton);
         lowerPanel.add(modeComboBox);
-
+        lowerPanel.add(selectionView);
 
 
 
