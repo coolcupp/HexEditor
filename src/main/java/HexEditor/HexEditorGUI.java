@@ -65,7 +65,8 @@ public class HexEditorGUI extends JFrame {
         scrollPaneTextArea.setPreferredSize(new Dimension(300, scrollPaneTextArea.getHeight()));
 
         // textAreaUpdater
-        cellHighlighterTextAreaUpdater = new CellHighlighterTextAreaUpdater(textArea, table);
+        // TODO
+        //CellHighlighterTextAreaUpdater CellHighlighterTextAreaUpdater = new CellHighlighterTextAreaUpdater(textArea, table);
 
 
         JTextField searchField = new JTextField("Поле для поиска", 20);
