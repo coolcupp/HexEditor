@@ -2,12 +2,9 @@ package HexEditor;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.xml.crypto.Data;
 import java.awt.event.*;
 import java.awt.*;
-import java.io.DataInput;
 import java.io.File;
-import java.util.Set;
 
 
 public class HexEditorGUI extends JFrame {
@@ -111,9 +108,11 @@ public class HexEditorGUI extends JFrame {
             }
         });
 
+        // Create JTextArea for selection view
         JTextArea selectionView = new JTextArea();
+        JScrollPane scrollPaneSelectionView = new JScrollPane(selectionView);
+        scrollPaneSelectionView.setPreferredSize(new Dimension(300, 100)); // Set preferred size for the scroll pane
         SelectionInfo selectionInfo = new SelectionInfo(table, selectionView);
-
 
         // add components to lowerPanel
         lowerPanel.add(colsLabel);
@@ -124,7 +123,7 @@ public class HexEditorGUI extends JFrame {
         lowerPanel.add(maskMatchButton);
         lowerPanel.add(searchButton);
         lowerPanel.add(modeComboBox);
-        lowerPanel.add(selectionView);
+        lowerPanel.add(scrollPaneSelectionView);
 
 
 
