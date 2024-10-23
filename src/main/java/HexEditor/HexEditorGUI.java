@@ -39,7 +39,7 @@ public class HexEditorGUI extends JFrame {
 
         // create lower panel
         JPanel lowerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        lowerPanel.setPreferredSize(new Dimension(100, 100));
+        lowerPanel.setPreferredSize(new Dimension(100, 130));
         JTextField colsField = new JTextField(5);
         colsField.setText("16");
         JButton resizeButton = new JButton("Confirm");
@@ -111,7 +111,7 @@ public class HexEditorGUI extends JFrame {
         // Create JTextArea for selection view
         JTextArea selectionView = new JTextArea();
         JScrollPane scrollPaneSelectionView = new JScrollPane(selectionView);
-        scrollPaneSelectionView.setPreferredSize(new Dimension(300, 100)); // Set preferred size for the scroll pane
+        scrollPaneSelectionView.setPreferredSize(new Dimension(300, 120)); // Set preferred size for the scroll pane
         SelectionInfo selectionInfo = new SelectionInfo(table, selectionView);
 
         // add components to lowerPanel
