@@ -404,7 +404,7 @@ public class HexEditorGUI extends JFrame {
         // Create a text pane for file view
         textArea = new JTextArea();
         textArea.setFont(new Font("Arial", Font.PLAIN, 14)); // Установка шрифта
-        textArea.setEditable(true);
+        textArea.setEditable(false);
         textArea.setLineWrap(true);
 
         // Create lower panel
@@ -488,6 +488,7 @@ public class HexEditorGUI extends JFrame {
         lowerPanel.add(scrollPaneSelectionView);
 
         ByteSearch byteSearch = new ByteSearch(table, searchField, exactMatchButton, maskMatchButton, textArea);
+        TableSelectionHandler tableSelectionHandler = new TableSelectionHandler(table, textArea);
 
         // Adding components to frame
         this.add(scrollPaneTable, BorderLayout.CENTER);
