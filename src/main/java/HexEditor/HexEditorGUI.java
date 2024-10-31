@@ -2,22 +2,20 @@
 ////
 ////import javax.swing.*;
 ////import javax.swing.table.DefaultTableModel;
-////import javax.xml.soap.Text;
 ////import java.awt.event.*;
 ////import java.awt.*;
 ////import java.io.File;
 ////
-////
 ////public class HexEditorGUI extends JFrame {
 ////    private JTextArea textArea;
 ////
-////    public HexEditorGUI(){
+////    public HexEditorGUI() {
 ////        this.setTitle("Hex editor by coolcupp");
 ////        this.setSize(1200, 800);
 ////        this.setLocationRelativeTo(null);
 ////        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 ////
-////        // create menu bar
+////        // Create menu bar
 ////        JMenuBar menuBar = new JMenuBar();
 ////        JMenu fileMenu = new JMenu("File");
 ////        JMenuItem openItem = new JMenuItem("Open");
@@ -28,57 +26,116 @@
 ////        fileMenu.addSeparator();
 ////        fileMenu.add(exitItem);
 ////        menuBar.add(fileMenu);
+////
+////        // Create Rows and Columns JComboBoxes
+////        String[] values = new String[64];
+////        for (int i = 1; i <= 64; i++) {
+////            values[i - 1] = String.valueOf(i);
+////        }
+////
+////        JComboBox<String> rowsComboBox = new JComboBox<>(values);
+////        JComboBox<String> colsComboBox = new JComboBox<>(values);
+////
+////        rowsComboBox.setSelectedItem("16");
+////        colsComboBox.setSelectedItem("16");
+////
+////        // Set preferred size for JComboBoxes
+////        rowsComboBox.setPreferredSize(new Dimension(50, 20));
+////        colsComboBox.setPreferredSize(new Dimension(50, 20));
+////
+////        // Create buttons for Rows and Columns
+////        JButton increaseRowsButton = new JButton("+");
+////        JButton decreaseRowsButton = new JButton("-");
+////        JButton increaseColsButton = new JButton("+");
+////        JButton decreaseColsButton = new JButton("-");
+////
+////        // Action listeners for the buttons
+////        increaseRowsButton.addActionListener(e -> {
+////            int currentValue = Integer.parseInt((String) rowsComboBox.getSelectedItem());
+////            if (currentValue < 64) {
+////                rowsComboBox.setSelectedItem(String.valueOf(currentValue + 1));
+////            }
+////        });
+////
+////        decreaseRowsButton.addActionListener(e -> {
+////            int currentValue = Integer.parseInt((String) rowsComboBox.getSelectedItem());
+////            if (currentValue > 1) {
+////                rowsComboBox.setSelectedItem(String.valueOf(currentValue - 1));
+////            }
+////        });
+////
+////        increaseColsButton.addActionListener(e -> {
+////            int currentValue = Integer.parseInt((String) colsComboBox.getSelectedItem());
+////            if (currentValue < 64) {
+////                colsComboBox.setSelectedItem(String.valueOf(currentValue + 1));
+////            }
+////        });
+////
+////        decreaseColsButton.addActionListener(e -> {
+////            int currentValue = Integer.parseInt((String) colsComboBox.getSelectedItem());
+////            if (currentValue > 1) {
+////                colsComboBox.setSelectedItem(String.valueOf(currentValue - 1));
+////            }
+////        });
+////
+////        // Create a panel for the combo boxes and buttons
+////        JPanel comboPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+////        comboPanel.add(new JLabel("Rows:"));
+////        comboPanel.add(rowsComboBox);
+////        comboPanel.add(decreaseRowsButton);
+////        comboPanel.add(increaseRowsButton);
+////        comboPanel.add(new JLabel("Columns:"));
+////        comboPanel.add(colsComboBox);
+////        comboPanel.add(decreaseColsButton);
+////        comboPanel.add(increaseColsButton);
+////
+////        menuBar.add(Box.createHorizontalGlue()); // Add glue to push components to the right
+////        menuBar.add(comboPanel);
+////
 ////        this.setJMenuBar(menuBar);
 ////
-////
-////        // create a text area for file view
+////        // Create a text pane for file view
 ////        textArea = new JTextArea();
-////        textArea.setLineWrap(true); // включаем перенос строк
-////        textArea.setFont(new Font("Arial", Font.PLAIN, 14)); // установка шрифта
-////        textArea.setEditable(true);
+////        textArea.setFont(new Font("Arial", Font.PLAIN, 14));
+////        textArea.setEditable(false);
+////        textArea.setLineWrap(true);
 ////
-////        // create lower panel
+////        // Create lower panel
 ////        JPanel lowerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 ////        lowerPanel.setPreferredSize(new Dimension(100, 130));
-////        JTextField colsField = new JTextField(5);
-////        colsField.setText("16");
-////        JButton resizeButton = new JButton("Confirm");
-////        JLabel colsLabel = new JLabel("Columns:");
 ////
-////        // create table model and table
+////        // RESIZE TABLE
+//////        JTextField colsField = new JTextField(5);
+//////        colsField.setText("16");
+//////        JButton resizeButton = new JButton("Confirm");
+//////        JLabel colsLabel = new JLabel("Columns:");
+////
+////        // Create table model and table
 ////        DefaultTableModel tableModel = new DefaultTableModel();
 ////        CustomTable table = new CustomTable(tableModel);
-////        // запрет на перетаскивание столбцов
 ////        table.getTableHeader().setReorderingAllowed(false);
-////        // дает возможность добавления горизонтального ползунка
-////        // table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 ////        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 ////        table.setColumnSelectionAllowed(true);
 ////        table.setRowSelectionAllowed(true);
 ////
-////
-////        // create Scroll Pane and add table to it
+////        // Create Scroll Pane and add table to it
 ////        JScrollPane scrollPaneTable = new JScrollPane(table);
 ////
-////        // create Scroll Pane for textArea
-////        JScrollPane scrollPaneTextArea = new JScrollPane(textArea);
-////        scrollPaneTextArea.setPreferredSize(new Dimension(300, scrollPaneTextArea.getHeight()));
+////        // Create Scroll Pane for textArea
+////        JScrollPane scrollPaneTextPane = new JScrollPane(textArea);
+////        scrollPaneTextPane.setPreferredSize(new Dimension(300, scrollPaneTextPane.getHeight()));
 ////
-////        // textAreaUpdater
-////        // TODO
-////
-////
-////
+////        // Create search field
 ////        JTextField searchField = new JTextField("Поле для поиска", 20);
-////        searchField.setForeground(Color.GRAY); // Установка серого цвета текста
+////        searchField.setForeground(Color.GRAY);
 ////
-////        // Добавление FocusListener
+////        // Adding FocusListener
 ////        searchField.addFocusListener(new FocusListener() {
 ////            @Override
 ////            public void focusGained(FocusEvent e) {
 ////                if (searchField.getText().equals("Поле для поиска")) {
 ////                    searchField.setText("");
-////                    searchField.setForeground(Color.BLACK); // Изменение цвета текста на черный
+////                    searchField.setForeground(Color.BLACK);
 ////                }
 ////            }
 ////
@@ -86,7 +143,7 @@
 ////            public void focusLost(FocusEvent e) {
 ////                if (searchField.getText().isEmpty()) {
 ////                    searchField.setText("Поле для поиска");
-////                    searchField.setForeground(Color.GRAY); // Возвращение серого цвета текста
+////                    searchField.setForeground(Color.GRAY);
 ////                }
 ////            }
 ////        });
@@ -96,11 +153,10 @@
 ////        ButtonGroup group = new ButtonGroup();
 ////        group.add(exactMatchButton);
 ////        group.add(maskMatchButton);
-////        exactMatchButton.setSelected(true); // Выбор по умолчанию
+////        exactMatchButton.setSelected(true);
 ////        JButton searchButton = new JButton("Поиск");
 ////
-////
-////        // make combobox
+////        // Make combobox
 ////        JComboBox<String> modeComboBox = new JComboBox<>(new String[]{"Стандарт", "2 байта", "4 байта", "8 байт"});
 ////        modeComboBox.addActionListener(new ActionListener() {
 ////            @Override
@@ -109,16 +165,19 @@
 ////            }
 ////        });
 ////
-////        // Create JTextArea for selection view
+////        // Create JTextPane for selection view
 ////        JTextArea selectionView = new JTextArea();
 ////        JScrollPane scrollPaneSelectionView = new JScrollPane(selectionView);
-////        scrollPaneSelectionView.setPreferredSize(new Dimension(300, 120)); // Set preferred size for the scroll pane
+////        scrollPaneSelectionView.setPreferredSize(new Dimension(300, 120));
 ////        SelectionInfo selectionInfo = new SelectionInfo(table, selectionView);
 ////
-////        // add components to lowerPanel
-////        lowerPanel.add(colsLabel);
-////        lowerPanel.add(colsField);
-////        lowerPanel.add(resizeButton);
+////
+////
+////
+////        // Add components to lowerPanel
+//////        lowerPanel.add(colsLabel);
+//////        lowerPanel.add(colsField);
+//////        lowerPanel.add(resizeButton);
 ////        lowerPanel.add(searchField);
 ////        lowerPanel.add(exactMatchButton);
 ////        lowerPanel.add(maskMatchButton);
@@ -128,61 +187,51 @@
 ////
 ////
 ////
+////        ByteSearch byteSearch = new ByteSearch(table, searchField, exactMatchButton, maskMatchButton, textArea);
+////        TableSelectionHandler tableSelectionHandler = new TableSelectionHandler(table, textArea);
 ////
-////
-////
-////        ByteSearch byteSearch =
-////                new ByteSearch(table, searchField, exactMatchButton, maskMatchButton, textArea);
-////
-////        // adding components to frame
+////        // Adding components to frame
 ////        this.add(scrollPaneTable, BorderLayout.CENTER);
-////        this.add(scrollPaneTextArea, BorderLayout.EAST);
+////        this.add(scrollPaneTextPane, BorderLayout.EAST);
 ////        this.add(lowerPanel, BorderLayout.SOUTH);
 ////
-////        // add searchButton listener
+////        // Add searchButton listener
 ////        searchButton.addActionListener(new ActionListener() {
 ////            @Override
 ////            public void actionPerformed(ActionEvent e) {
 ////                byteSearch.performSearch();
 ////            }
 ////        });
-////        // add resize Action listener
-////        resizeButton.addActionListener(new ActionListener() {
-////            @Override
-////            public void actionPerformed(ActionEvent e) {
-////                TableResizer tableResizer = new TableResizer(table, colsField);
-////                tableResizer.resizeTable();
-////            }
-////        });
-////        // add action listeners to file buttons
+//////        // Add resize Action listener
+//////        resizeButton.addActionListener(new ActionListener() {
+//////            @Override
+//////            public void actionPerformed(ActionEvent e) {
+//////                TableResizer tableResizer = new TableResizer(table, colsField);
+//////                tableResizer.resizeTable();
+//////            }
+//////        });
+////        // Add action listeners to file buttons
 ////        openItem.addActionListener(new ActionListener() {
 ////            @Override
 ////            public void actionPerformed(ActionEvent actionEvent) {
 ////                JFileChooser fileChooser = new JFileChooser();
 ////                int returnValue = fileChooser.showOpenDialog(null);
-////                if (returnValue == JFileChooser.APPROVE_OPTION){
+////                if (returnValue == JFileChooser.APPROVE_OPTION) {
 ////                    File selectedFile = fileChooser.getSelectedFile();
 ////                    FileViewer fileViewer = new FileViewer(textArea);
-////                    OpenFile openFile = new OpenFile(table, colsField, fileViewer); // create an object open file
+////                    OpenFile openFile = new OpenFile(table, colsComboBox, fileViewer);
 ////                    openFile.loadFile(selectedFile);
 ////                }
 ////            }
 ////        });
-////        // add save action Listener
+////        // Add save action Listener
 ////        saveItem.addActionListener(new ActionListener() {
 ////            @Override
 ////            public void actionPerformed(ActionEvent actionEvent) {
 ////                JFileChooser fileChooser = new JFileChooser();
 ////                int returnValue = fileChooser.showSaveDialog(null);
-////                if (returnValue == JFileChooser.APPROVE_OPTION){
-////                    // TODO
-//////                    SaveFile saveFile = new SaveFile();
-//////                    saveFile.saveToFile(tableModel);
-//////                    File selectedFile = fileChooser.getSelectedFile();
-//////                    SaveFile saveFile = new SaveFile(tableModel);
-//////                    saveFile.saveToFile(selectedFile);
-//////                    JOptionPane.showMessageDialog(null, "File was saved");
-////
+////                if (returnValue == JFileChooser.APPROVE_OPTION) {
+////                    // TODO: Реализуйте сохранение файла
 ////                }
 ////            }
 ////        });
@@ -194,7 +243,6 @@
 ////        });
 ////
 ////        this.setVisible(true);
-////
 ////    }
 ////}
 //
@@ -207,7 +255,13 @@
 //import java.io.File;
 //
 //public class HexEditorGUI extends JFrame {
-//    private JTextPane textPane; // Заменяем JTextArea на JTextPane
+//    private JTextArea textArea;
+//    private OpenFile openFile;
+//    private JComboBox<String> rowsComboBox;
+//    private JComboBox<String> colsComboBox;
+//    private JLabel pageInfoLabel;
+//    private JButton prevPageButton;
+//    private JButton nextPageButton;
 //
 //    public HexEditorGUI() {
 //        this.setTitle("Hex editor by coolcupp");
@@ -226,20 +280,102 @@
 //        fileMenu.addSeparator();
 //        fileMenu.add(exitItem);
 //        menuBar.add(fileMenu);
+//
+//        // Create Rows and Columns JComboBoxes
+//        String[] values = new String[64];
+//        for (int i = 1; i <= 64; i++) {
+//            values[i - 1] = String.valueOf(i);
+//        }
+//
+//        rowsComboBox = new JComboBox<>(values);
+//        colsComboBox = new JComboBox<>(values);
+//        rowsComboBox.setSelectedItem("16");
+//        colsComboBox.setSelectedItem("16");
+//
+//        // Create buttons for Rows and Columns
+//        JButton increaseRowsButton = new JButton("+");
+//        JButton decreaseRowsButton = new JButton("-");
+//        JButton increaseColsButton = new JButton("+");
+//        JButton decreaseColsButton = new JButton("-");
+//
+//        // Action listeners for the buttons
+//        increaseRowsButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                int currentValue = Integer.parseInt((String) rowsComboBox.getSelectedItem());
+//                if (currentValue < 64) {
+//                    rowsComboBox.setSelectedItem(String.valueOf(currentValue + 1));
+//                    if (openFile != null) {
+//                        openFile.loadPage(openFile.getCurrentPage()); // Reload the current page
+//                    }
+//                }
+//            }
+//        });
+//
+//        decreaseRowsButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                int currentValue = Integer.parseInt((String) rowsComboBox.getSelectedItem());
+//                if (currentValue > 1) {
+//                    rowsComboBox.setSelectedItem(String.valueOf(currentValue - 1));
+//                    if (openFile != null) {
+//                        openFile.loadPage(openFile.getCurrentPage()); // Reload the current page
+//                    }
+//                }
+//            }
+//        });
+//
+//        increaseColsButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                int currentValue = Integer.parseInt((String) colsComboBox.getSelectedItem());
+//                if (currentValue < 64) {
+//                    colsComboBox.setSelectedItem(String.valueOf(currentValue + 1));
+//                    if (openFile != null) {
+//                        openFile.loadPage(openFile.getCurrentPage()); // Reload the current page
+//                    }
+//                }
+//            }
+//        });
+//
+//        decreaseColsButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                int currentValue = Integer.parseInt((String) colsComboBox.getSelectedItem());
+//                if (currentValue > 1) {
+//                    colsComboBox.setSelectedItem(String.valueOf(currentValue - 1));
+//                    if (openFile != null) {
+//                        openFile.loadPage(openFile.getCurrentPage()); // Reload the current page
+//                    }
+//                }
+//            }
+//        });
+//
+//        // Create a panel for the combo boxes and buttons
+//        JPanel comboPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+//        comboPanel.add(new JLabel("Rows:"));
+//        comboPanel.add(rowsComboBox);
+//        comboPanel.add(decreaseRowsButton);
+//        comboPanel.add(increaseRowsButton);
+//        comboPanel.add(new JLabel("Columns:"));
+//        comboPanel.add(colsComboBox);
+//        comboPanel.add(decreaseColsButton);
+//        comboPanel.add(increaseColsButton);
+//
+//        menuBar.add(Box.createHorizontalGlue()); // Add glue to push components to the right
+//        menuBar.add(comboPanel);
+//
 //        this.setJMenuBar(menuBar);
 //
 //        // Create a text pane for file view
-//        textPane = new JTextPane();
-//        textPane.setFont(new Font("Arial", Font.PLAIN, 14)); // Установка шрифта
-//        textPane.setEditable(true);
+//        textArea = new JTextArea();
+//        textArea.setFont(new Font("Arial", Font.PLAIN, 14));
+//        textArea.setEditable(false);
+//        textArea.setLineWrap(true);
 //
 //        // Create lower panel
 //        JPanel lowerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 //        lowerPanel.setPreferredSize(new Dimension(100, 130));
-//        JTextField colsField = new JTextField(5);
-//        colsField.setText("16");
-//        JButton resizeButton = new JButton("Confirm");
-//        JLabel colsLabel = new JLabel("Columns:");
 //
 //        // Create table model and table
 //        DefaultTableModel tableModel = new DefaultTableModel();
@@ -252,21 +388,21 @@
 //        // Create Scroll Pane and add table to it
 //        JScrollPane scrollPaneTable = new JScrollPane(table);
 //
-//        // Create Scroll Pane for textPane
-//        JScrollPane scrollPaneTextPane = new JScrollPane(textPane);
+//        // Create Scroll Pane for textArea
+//        JScrollPane scrollPaneTextPane = new JScrollPane(textArea);
 //        scrollPaneTextPane.setPreferredSize(new Dimension(300, scrollPaneTextPane.getHeight()));
 //
 //        // Create search field
 //        JTextField searchField = new JTextField("Поле для поиска", 20);
-//        searchField.setForeground(Color.GRAY); // Установка серого цвета текста
+//        searchField.setForeground(Color.GRAY);
 //
-//        // Добавление FocusListener
+//        // Adding FocusListener
 //        searchField.addFocusListener(new FocusListener() {
 //            @Override
 //            public void focusGained(FocusEvent e) {
 //                if (searchField.getText().equals("Поле для поиска")) {
 //                    searchField.setText("");
-//                    searchField.setForeground(Color.BLACK); // Изменение цвета текста на черный
+//                    searchField.setForeground(Color.BLACK);
 //                }
 //            }
 //
@@ -274,7 +410,7 @@
 //            public void focusLost(FocusEvent e) {
 //                if (searchField.getText().isEmpty()) {
 //                    searchField.setText("Поле для поиска");
-//                    searchField.setForeground(Color.GRAY); // Возвращение серого цвета текста
+//                    searchField.setForeground(Color.GRAY);
 //                }
 //            }
 //        });
@@ -284,28 +420,19 @@
 //        ButtonGroup group = new ButtonGroup();
 //        group.add(exactMatchButton);
 //        group.add(maskMatchButton);
-//        exactMatchButton.setSelected(true); // Выбор по умолчанию
+//        exactMatchButton.setSelected(true);
 //        JButton searchButton = new JButton("Поиск");
 //
 //        // Make combobox
 //        JComboBox<String> modeComboBox = new JComboBox<>(new String[]{"Стандарт", "2 байта", "4 байта", "8 байт"});
-//        modeComboBox.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                table.setSelectionMode(modeComboBox.getSelectedIndex());
-//            }
-//        });
 //
 //        // Create JTextPane for selection view
-//        JTextPane selectionView = new JTextPane();
+//        JTextArea selectionView = new JTextArea();
 //        JScrollPane scrollPaneSelectionView = new JScrollPane(selectionView);
-//        scrollPaneSelectionView.setPreferredSize(new Dimension(300, 120)); // Устанавливаем предпочтительный размер для панели прокрутки
+//        scrollPaneSelectionView.setPreferredSize(new Dimension(300, 120));
 //        SelectionInfo selectionInfo = new SelectionInfo(table, selectionView);
 //
 //        // Add components to lowerPanel
-//        lowerPanel.add(colsLabel);
-//        lowerPanel.add(colsField);
-//        lowerPanel.add(resizeButton);
 //        lowerPanel.add(searchField);
 //        lowerPanel.add(exactMatchButton);
 //        lowerPanel.add(maskMatchButton);
@@ -313,12 +440,42 @@
 //        lowerPanel.add(modeComboBox);
 //        lowerPanel.add(scrollPaneSelectionView);
 //
-//        ByteSearch byteSearch = new ByteSearch(table, searchField, exactMatchButton, maskMatchButton, textPane);
+//        ByteSearch byteSearch = new ByteSearch(table, searchField, exactMatchButton, maskMatchButton, textArea);
+//        TableSelectionHandler tableSelectionHandler = new TableSelectionHandler(table, textArea);
 //
 //        // Adding components to frame
 //        this.add(scrollPaneTable, BorderLayout.CENTER);
 //        this.add(scrollPaneTextPane, BorderLayout.EAST);
 //        this.add(lowerPanel, BorderLayout.SOUTH);
+//
+//        // Create pagination controls
+//        prevPageButton = new JButton("Previous");
+//        nextPageButton = new JButton("Next");
+//        pageInfoLabel = new JLabel("Page: 1/1");
+//
+//        prevPageButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if (openFile != null && openFile.getCurrentPage() > 1) {
+//                    openFile.loadPage(openFile.getCurrentPage() - 1);
+//                    updatePageInfo();
+//                }
+//            }
+//        });
+//
+//        nextPageButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if (openFile != null && openFile.getCurrentPage() < openFile.getTotalPages()) {
+//                    openFile.loadPage(openFile.getCurrentPage() + 1);
+//                    updatePageInfo();
+//                }
+//            }
+//        });
+//
+//        lowerPanel.add(prevPageButton);
+//        lowerPanel.add(nextPageButton);
+//        lowerPanel.add(pageInfoLabel);
 //
 //        // Add searchButton listener
 //        searchButton.addActionListener(new ActionListener() {
@@ -327,14 +484,7 @@
 //                byteSearch.performSearch();
 //            }
 //        });
-//        // Add resize Action listener
-//        resizeButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                TableResizer tableResizer = new TableResizer(table, colsField);
-//                tableResizer.resizeTable();
-//            }
-//        });
+//
 //        // Add action listeners to file buttons
 //        openItem.addActionListener(new ActionListener() {
 //            @Override
@@ -343,12 +493,14 @@
 //                int returnValue = fileChooser.showOpenDialog(null);
 //                if (returnValue == JFileChooser.APPROVE_OPTION) {
 //                    File selectedFile = fileChooser.getSelectedFile();
-//                    FileViewer fileViewer = new FileViewer(textPane); // Используем JTextPane
-//                    OpenFile openFile = new OpenFile(table, colsField, fileViewer); // Создаем объект для открытия файла
+//                    FileViewer fileViewer = new FileViewer(textArea);
+//                    openFile = new OpenFile(table, rowsComboBox, colsComboBox, fileViewer);
 //                    openFile.loadFile(selectedFile);
+//                    updatePageInfo(); // Update page info after loading file
 //                }
 //            }
 //        });
+//
 //        // Add save action Listener
 //        saveItem.addActionListener(new ActionListener() {
 //            @Override
@@ -360,6 +512,7 @@
 //                }
 //            }
 //        });
+//
 //        exitItem.addActionListener(new ActionListener() {
 //            @Override
 //            public void actionPerformed(ActionEvent actionEvent) {
@@ -368,6 +521,12 @@
 //        });
 //
 //        this.setVisible(true);
+//    }
+//
+//    private void updatePageInfo() {
+//        if (openFile != null) {
+//            pageInfoLabel.setText("Page: " + openFile.getCurrentPage() + "/" + openFile.getTotalPages());
+//        }
 //    }
 //}
 
@@ -381,10 +540,18 @@ import java.io.File;
 
 public class HexEditorGUI extends JFrame {
     private JTextArea textArea;
+    private OpenFile openFile;
+    private JComboBox<String> rowsComboBox;
+    private JComboBox<String> colsComboBox;
+    private JLabel pageInfoLabel;
+    private JButton prevPageButton;
+    private JButton nextPageButton;
+    private JTextField currentPageField; // New field for current page input
+    private JButton goToPageButton; // New button to go to specific page
 
     public HexEditorGUI() {
         this.setTitle("Hex editor by coolcupp");
-        this.setSize(1200, 800);
+        this.setSize(1500, 1000);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -399,21 +566,90 @@ public class HexEditorGUI extends JFrame {
         fileMenu.addSeparator();
         fileMenu.add(exitItem);
         menuBar.add(fileMenu);
+
+        // Create Rows and Columns JComboBoxes
+        String[] values = new String[64];
+        for (int i = 1; i <= 64; i++) {
+            values[i - 1] = String.valueOf(i);
+        }
+
+        rowsComboBox = new JComboBox<>(values);
+        colsComboBox = new JComboBox<>(values);
+        rowsComboBox.setSelectedItem("16");
+        colsComboBox.setSelectedItem("16");
+
+        // Create buttons for Rows and Columns
+        JButton increaseRowsButton = new JButton("+");
+        JButton decreaseRowsButton = new JButton("-");
+        JButton increaseColsButton = new JButton("+");
+        JButton decreaseColsButton = new JButton("-");
+
+        // Action listeners for the buttons
+        increaseRowsButton.addActionListener(e -> {
+            int currentValue = Integer.parseInt((String) rowsComboBox.getSelectedItem());
+            if (currentValue < 64) {
+                rowsComboBox.setSelectedItem(String.valueOf(currentValue + 1));
+                if (openFile != null) {
+                    openFile.loadPage(openFile.getCurrentPage()); // Reload the current page
+                }
+            }
+        });
+
+        decreaseRowsButton.addActionListener(e -> {
+            int currentValue = Integer.parseInt((String) rowsComboBox.getSelectedItem());
+            if (currentValue > 1) {
+                rowsComboBox.setSelectedItem(String.valueOf(currentValue - 1));
+                if (openFile != null) {
+                    openFile.loadPage(openFile.getCurrentPage()); // Reload the current page
+                }
+            }
+        });
+
+        increaseColsButton.addActionListener(e -> {
+            int currentValue = Integer.parseInt((String) colsComboBox.getSelectedItem());
+            if (currentValue < 64) {
+                colsComboBox.setSelectedItem(String.valueOf(currentValue + 1));
+                if (openFile != null) {
+                    openFile.loadPage(openFile.getCurrentPage()); // Reload the current page
+                }
+            }
+        });
+
+        decreaseColsButton.addActionListener(e -> {
+            int currentValue = Integer.parseInt((String) colsComboBox.getSelectedItem());
+            if (currentValue > 1) {
+                colsComboBox.setSelectedItem(String.valueOf(currentValue - 1));
+                if (openFile != null) {
+                    openFile.loadPage(openFile.getCurrentPage()); // Reload the current page
+                }
+            }
+        });
+
+        // Create a panel for the combo boxes and buttons
+        JPanel comboPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        comboPanel.add(new JLabel("Rows:"));
+        comboPanel.add(rowsComboBox);
+        comboPanel.add(decreaseRowsButton);
+        comboPanel.add(increaseRowsButton);
+        comboPanel.add(new JLabel("Columns:"));
+        comboPanel.add(colsComboBox);
+        comboPanel.add(decreaseColsButton);
+        comboPanel.add(increaseColsButton);
+
+        menuBar.add(Box.createHorizontalGlue()); // Add glue to push components to the right
+        menuBar.add(comboPanel);
+
         this.setJMenuBar(menuBar);
 
         // Create a text pane for file view
         textArea = new JTextArea();
-        textArea.setFont(new Font("Arial", Font.PLAIN, 14)); // Установка шрифта
+        textArea.setFont(new Font("Arial", Font.PLAIN, 14));
         textArea.setEditable(false);
         textArea.setLineWrap(true);
 
         // Create lower panel
         JPanel lowerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         lowerPanel.setPreferredSize(new Dimension(100, 130));
-        JTextField colsField = new JTextField(5);
-        colsField.setText("16");
-        JButton resizeButton = new JButton("Confirm");
-        JLabel colsLabel = new JLabel("Columns:");
 
         // Create table model and table
         DefaultTableModel tableModel = new DefaultTableModel();
@@ -432,15 +668,15 @@ public class HexEditorGUI extends JFrame {
 
         // Create search field
         JTextField searchField = new JTextField("Поле для поиска", 20);
-        searchField.setForeground(Color.GRAY); // Установка серого цвета текста
+        searchField.setForeground(Color.GRAY);
 
-        // Добавление FocusListener
-        searchField.addFocusListener(new FocusListener() {
+        // Adding FocusListener
+        searchField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 if (searchField.getText().equals("Поле для поиска")) {
                     searchField.setText("");
-                    searchField.setForeground(Color.BLACK); // Изменение цвета текста на черный
+                    searchField.setForeground(Color.BLACK);
                 }
             }
 
@@ -448,7 +684,7 @@ public class HexEditorGUI extends JFrame {
             public void focusLost(FocusEvent e) {
                 if (searchField.getText().isEmpty()) {
                     searchField.setText("Поле для поиска");
-                    searchField.setForeground(Color.GRAY); // Возвращение серого цвета текста
+                    searchField.setForeground(Color.GRAY);
                 }
             }
         });
@@ -458,28 +694,19 @@ public class HexEditorGUI extends JFrame {
         ButtonGroup group = new ButtonGroup();
         group.add(exactMatchButton);
         group.add(maskMatchButton);
-        exactMatchButton.setSelected(true); // Выбор по умолчанию
+        exactMatchButton.setSelected(true);
         JButton searchButton = new JButton("Поиск");
 
         // Make combobox
         JComboBox<String> modeComboBox = new JComboBox<>(new String[]{"Стандарт", "2 байта", "4 байта", "8 байт"});
-        modeComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                table.setSelectionMode(modeComboBox.getSelectedIndex());
-            }
-        });
 
         // Create JTextPane for selection view
         JTextArea selectionView = new JTextArea();
         JScrollPane scrollPaneSelectionView = new JScrollPane(selectionView);
-        scrollPaneSelectionView.setPreferredSize(new Dimension(300, 120)); // Устанавливаем предпочтительный размер для панели прокрутки
+        scrollPaneSelectionView.setPreferredSize(new Dimension(300, 120));
         SelectionInfo selectionInfo = new SelectionInfo(table, selectionView);
 
         // Add components to lowerPanel
-        lowerPanel.add(colsLabel);
-        lowerPanel.add(colsField);
-        lowerPanel.add(resizeButton);
         lowerPanel.add(searchField);
         lowerPanel.add(exactMatchButton);
         lowerPanel.add(maskMatchButton);
@@ -495,53 +722,88 @@ public class HexEditorGUI extends JFrame {
         this.add(scrollPaneTextPane, BorderLayout.EAST);
         this.add(lowerPanel, BorderLayout.SOUTH);
 
-        // Add searchButton listener
-        searchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                byteSearch.performSearch();
-            }
-        });
-        // Add resize Action listener
-        resizeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                TableResizer tableResizer = new TableResizer(table, colsField);
-                tableResizer.resizeTable();
-            }
-        });
-        // Add action listeners to file buttons
-        openItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                JFileChooser fileChooser = new JFileChooser();
-                int returnValue = fileChooser.showOpenDialog(null);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = fileChooser.getSelectedFile();
-                    FileViewer fileViewer = new FileViewer(textArea); // Используем JTextPane
-                    OpenFile openFile = new OpenFile(table, colsField, fileViewer); // Создаем объект для открытия файла
-                    openFile.loadFile(selectedFile);
-                }
-            }
-        });
-        // Add save action Listener
-        saveItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                JFileChooser fileChooser = new JFileChooser();
-                int returnValue = fileChooser.showSaveDialog(null);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    // TODO: Реализуйте сохранение файла
-                }
-            }
-        });
-        exitItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                System.exit(0);
+        // Create pagination controls
+        prevPageButton = new JButton("Previous");
+        nextPageButton = new JButton("Next");
+        pageInfoLabel = new JLabel("Page: 1/1");
+
+        // Create field for current page
+        currentPageField = new JTextField(3); // Width of 3 columns
+        currentPageField.setHorizontalAlignment(JTextField.CENTER);
+        currentPageField.setText("1");
+
+        // Create Go button
+        goToPageButton = new JButton("Go");
+
+        prevPageButton.addActionListener(e -> {
+            if (openFile != null && openFile.getCurrentPage() > 1) {
+                openFile.loadPage(openFile.getCurrentPage() - 1);
+                updatePageInfo();
             }
         });
 
+        nextPageButton.addActionListener(e -> {
+            if (openFile != null && openFile.getCurrentPage() < openFile.getTotalPages()) {
+                openFile.loadPage(openFile.getCurrentPage() + 1);
+                updatePageInfo();
+            }
+        });
+
+        // Action listener for Go button
+        goToPageButton.addActionListener(e -> {
+            try {
+                int targetPage = Integer.parseInt(currentPageField.getText());
+                if (openFile != null && targetPage > 0 && targetPage <= openFile.getTotalPages()) {
+                    openFile.loadPage(targetPage);
+                    updatePageInfo();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Введите корректный номер страницы.");
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Некорректный номер страницы.");
+            }
+        });
+
+        lowerPanel.add(prevPageButton);
+        lowerPanel.add(nextPageButton);
+        lowerPanel.add(currentPageField);
+        lowerPanel.add(goToPageButton);
+        lowerPanel.add(pageInfoLabel);
+
+        // Add searchButton listener
+        searchButton.addActionListener(e -> byteSearch.performSearch());
+
+        // Add action listeners to file buttons
+        openItem.addActionListener(actionEvent -> {
+            JFileChooser fileChooser = new JFileChooser();
+            int returnValue = fileChooser.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                FileViewer fileViewer = new FileViewer(textArea);
+                openFile = new OpenFile(table, rowsComboBox, colsComboBox, fileViewer);
+                openFile.loadFile(selectedFile);
+                updatePageInfo(); // Update page info after loading file
+            }
+        });
+
+        // Add save action Listener
+        saveItem.addActionListener(actionEvent -> {
+            JFileChooser fileChooser = new JFileChooser();
+            int returnValue = fileChooser.showSaveDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                // TODO: Реализуйте сохранение файла
+            }
+        });
+
+        exitItem.addActionListener(actionEvent -> System.exit(0));
+
         this.setVisible(true);
+    }
+
+    private void updatePageInfo() {
+        if (openFile != null) {
+            pageInfoLabel.setText("Page: " + openFile.getCurrentPage() + "/" + openFile.getTotalPages());
+            currentPageField.setText(String.valueOf(openFile.getCurrentPage())); // Update the current page field
+        }
     }
 }
