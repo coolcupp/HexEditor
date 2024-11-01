@@ -654,4 +654,8 @@ public class OpenFile {
     public int getTotalPages() {
         return totalPages;
     }
+
+    public File getFile() {
+        return file;
+    }
 }

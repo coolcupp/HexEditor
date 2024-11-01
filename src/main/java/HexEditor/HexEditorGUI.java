@@ -548,6 +548,7 @@ public class HexEditorGUI extends JFrame {
     private JButton nextPageButton;
     private JTextField currentPageField; // New field for current page input
     private JButton goToPageButton; // New button to go to specific page
+    private PageInfoUpdater pageInfoUpdater;
 
     public HexEditorGUI() {
         this.setTitle("Hex editor by coolcupp");
@@ -589,9 +590,10 @@ public class HexEditorGUI extends JFrame {
             int currentValue = Integer.parseInt((String) rowsComboBox.getSelectedItem());
             if (currentValue < 64) {
                 rowsComboBox.setSelectedItem(String.valueOf(currentValue + 1));
-                if (openFile != null) {
-                    openFile.loadPage(openFile.getCurrentPage()); // Reload the current page
-                }
+                pageInfoUpdater.update();
+//                if (openFile != null) {
+//                    openFile.loadPage(openFile.getCurrentPage()); // Reload the current page
+//                }
             }
         });
 
@@ -599,9 +601,10 @@ public class HexEditorGUI extends JFrame {
             int currentValue = Integer.parseInt((String) rowsComboBox.getSelectedItem());
             if (currentValue > 1) {
                 rowsComboBox.setSelectedItem(String.valueOf(currentValue - 1));
-                if (openFile != null) {
-                    openFile.loadPage(openFile.getCurrentPage()); // Reload the current page
-                }
+                pageInfoUpdater.update();
+//                if (openFile != null) {
+//                    openFile.loadPage(openFile.getCurrentPage()); // Reload the current page
+//                }
             }
         });
 
@@ -609,9 +612,10 @@ public class HexEditorGUI extends JFrame {
             int currentValue = Integer.parseInt((String) colsComboBox.getSelectedItem());
             if (currentValue < 64) {
                 colsComboBox.setSelectedItem(String.valueOf(currentValue + 1));
-                if (openFile != null) {
-                    openFile.loadPage(openFile.getCurrentPage()); // Reload the current page
-                }
+                pageInfoUpdater.update();
+//                if (openFile != null) {
+//                    openFile.loadPage(openFile.getCurrentPage()); // Reload the current page
+//                }
             }
         });
 
@@ -619,9 +623,10 @@ public class HexEditorGUI extends JFrame {
             int currentValue = Integer.parseInt((String) colsComboBox.getSelectedItem());
             if (currentValue > 1) {
                 colsComboBox.setSelectedItem(String.valueOf(currentValue - 1));
-                if (openFile != null) {
-                    openFile.loadPage(openFile.getCurrentPage()); // Reload the current page
-                }
+                pageInfoUpdater.update();
+//                if (openFile != null) {
+//                    openFile.loadPage(openFile.getCurrentPage()); // Reload the current page
+//                }
             }
         });
 
@@ -738,14 +743,14 @@ public class HexEditorGUI extends JFrame {
         prevPageButton.addActionListener(e -> {
             if (openFile != null && openFile.getCurrentPage() > 1) {
                 openFile.loadPage(openFile.getCurrentPage() - 1);
-                updatePageInfo();
+                pageInfoUpdater.update();
             }
         });
 
         nextPageButton.addActionListener(e -> {
             if (openFile != null && openFile.getCurrentPage() < openFile.getTotalPages()) {
                 openFile.loadPage(openFile.getCurrentPage() + 1);
-                updatePageInfo();
+                pageInfoUpdater.update();
             }
         });
 
@@ -755,7 +760,7 @@ public class HexEditorGUI extends JFrame {
                 int targetPage = Integer.parseInt(currentPageField.getText());
                 if (openFile != null && targetPage > 0 && targetPage <= openFile.getTotalPages()) {
                     openFile.loadPage(targetPage);
-                    updatePageInfo();
+                    pageInfoUpdater.update();
                 } else {
                     JOptionPane.showMessageDialog(null, "Введите корректный номер страницы.");
                 }
@@ -773,16 +778,29 @@ public class HexEditorGUI extends JFrame {
         // Add searchButton listener
         searchButton.addActionListener(e -> byteSearch.performSearch());
 
+
+        // initialize file opener and viewer
+        FileViewer fileViewer = new FileViewer(textArea);
+        openFile = new OpenFile(table, rowsComboBox, colsComboBox, fileViewer);
+
+
+        // page info updater
+        pageInfoUpdater = new PageInfoUpdater(pageInfoLabel, currentPageField, openFile);
+
+
+        // initialize tableResizer
+        TableResizer tableResizer = new TableResizer(openFile, rowsComboBox, colsComboBox, pageInfoUpdater);
+
+
+
         // Add action listeners to file buttons
         openItem.addActionListener(actionEvent -> {
             JFileChooser fileChooser = new JFileChooser();
             int returnValue = fileChooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
-                FileViewer fileViewer = new FileViewer(textArea);
-                openFile = new OpenFile(table, rowsComboBox, colsComboBox, fileViewer);
                 openFile.loadFile(selectedFile);
-                updatePageInfo(); // Update page info after loading file
+                pageInfoUpdater.update(); // Update page info after loading file
             }
         });
 
@@ -800,10 +818,4 @@ public class HexEditorGUI extends JFrame {
         this.setVisible(true);
     }
 
-    private void updatePageInfo() {
-        if (openFile != null) {
-            pageInfoLabel.setText("Page: " + openFile.getCurrentPage() + "/" + openFile.getTotalPages());
-            currentPageField.setText(String.valueOf(openFile.getCurrentPage())); // Update the current page field
-        }
-    }
 }
