@@ -186,10 +186,14 @@ public class HexEditorGUI extends JFrame {
         // delete bytes button
         JButton deleteBytesButton = new JButton("Delete Bytes");
         lowerPanel.add(deleteBytesButton);
+        JButton deleteBytesWithPaddingButton = new JButton("Delete with padding");
+        lowerPanel.add(deleteBytesWithPaddingButton);
+
 
 
         // Инициализация ByteRemover
         ByteRemover byteRemover = new ByteRemover();
+        ByteRemoverWithPadding byteRemoverWithPadding = new ByteRemoverWithPadding();
         // Добавление обработчика для кнопки удаления
 //        deleteBytesButton.addActionListener(new ActionListener() {
 //            @Override
@@ -246,6 +250,25 @@ public class HexEditorGUI extends JFrame {
                     pageInfoUpdater.update(); // Обновить информацию о странице
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Ошибка при удалении байтов: " + ex.getMessage());
+                }
+            }
+        });
+        deleteBytesWithPaddingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Set<Point> selectedCells = table.getSelectedCells();
+                if (selectedCells.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Пожалуйста, выберите байты для замены.");
+                    return;
+                }
+
+                try {
+                    ByteRemoverWithPadding byteRemoverWithPadding = new ByteRemoverWithPadding();
+                    byteRemoverWithPadding.removeBytesWithPadding(openFile.getFile(), selectedCells, openFile.getColumnCount(), openFile.getCurrentPage(), openFile.getPageSize());
+                    openFile.loadFile(openFile.getFile()); // Перезагрузить файл для обновления таблицы
+                    pageInfoUpdater.update(); // Обновить информацию о странице
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Ошибка при замене байтов: " + ex.getMessage());
                 }
             }
         });
