@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
 
 
 public class HexEditorGUI extends JFrame {
@@ -190,21 +191,57 @@ public class HexEditorGUI extends JFrame {
         // Инициализация ByteRemover
         ByteRemover byteRemover = new ByteRemover();
         // Добавление обработчика для кнопки удаления
+//        deleteBytesButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                int[] selectedRows = table.getSelectedRows();
+//                if (selectedRows.length == 0) {
+//                    JOptionPane.showMessageDialog(null, "Пожалуйста, выберите диапазон байтов для удаления.");
+//                    return;
+//                }
+//
+//                // Предполагаем, что удаляем байты с первой выделенной строки до последней
+//                int startRow = selectedRows[0];
+//                int endRow = selectedRows[selectedRows.length - 1];
+//
+//                try {
+//                    byteRemover.removeBytes(openFile.getFile(), startRow, endRow, openFile.getPageSize(), openFile.getColumnCount());
+//                    openFile.loadFile(openFile.getFile()); // Перезагрузить файл для обновления таблицы
+//                    pageInfoUpdater.update(); // Обновить информацию о странице
+//                } catch (IOException ex) {
+//                    JOptionPane.showMessageDialog(null, "Ошибка при удалении байтов: " + ex.getMessage());
+//                }
+//            }
+//        });
+//        deleteBytesButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                Set<Point> selectedCells = table.getSelectedCells();
+//                if (selectedCells.isEmpty()) {
+//                    JOptionPane.showMessageDialog(null, "Пожалуйста, выберите байты для удаления.");
+//                    return;
+//                }
+//
+//                try {
+//                    byteRemover.removeBytes(openFile.getFile(), selectedCells, openFile.getColumnCount());
+//                    openFile.loadFile(openFile.getFile()); // Перезагрузить файл для обновления таблицы
+//                    pageInfoUpdater.update(); // Обновить информацию о странице
+//                } catch (IOException ex) {
+//                    JOptionPane.showMessageDialog(null, "Ошибка при удалении байтов: " + ex.getMessage());
+//                }
+//            }
+//        });
         deleteBytesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int[] selectedRows = table.getSelectedRows();
-                if (selectedRows.length == 0) {
-                    JOptionPane.showMessageDialog(null, "Пожалуйста, выберите диапазон байтов для удаления.");
+                Set<Point> selectedCells = table.getSelectedCells();
+                if (selectedCells.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Пожалуйста, выберите байты для удаления.");
                     return;
                 }
 
-                // Предполагаем, что удаляем байты с первой выделенной строки до последней
-                int startRow = selectedRows[0];
-                int endRow = selectedRows[selectedRows.length - 1];
-
                 try {
-                    byteRemover.removeBytes(openFile.getFile(), startRow, endRow, openFile.getPageSize(), openFile.getColumnCount());
+                    byteRemover.removeBytes(openFile.getFile(), selectedCells, openFile.getColumnCount(), openFile.getCurrentPage(), openFile.getPageSize());
                     openFile.loadFile(openFile.getFile()); // Перезагрузить файл для обновления таблицы
                     pageInfoUpdater.update(); // Обновить информацию о странице
                 } catch (IOException ex) {
@@ -212,6 +249,7 @@ public class HexEditorGUI extends JFrame {
                 }
             }
         });
+
 
 
 
