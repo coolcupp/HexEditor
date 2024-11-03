@@ -52,7 +52,7 @@ public class ByteCutter {
         }
 
         // Выводим удаленные байты в консоль
-        System.out.println("Удаленные байты: " + removedBytes);
+        System.out.println("Вырезанные байты: " + removedBytes);
     }
 
     public List<Byte> getRemovedBytes() {

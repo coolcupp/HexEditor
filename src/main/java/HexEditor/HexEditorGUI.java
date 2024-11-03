@@ -193,6 +193,9 @@ public class HexEditorGUI extends JFrame {
         JButton cutWithPaddingButton = new JButton("Cut with padding");
         lowerPanel.add(cutWithPaddingButton);
         JButton copyButton = new JButton("Copy Bytes");
+        lowerPanel.add(copyButton);
+        JButton insertButton = new JButton("Insert Bytes");
+        lowerPanel.add(insertButton);
 
 
 
@@ -281,6 +284,51 @@ public class HexEditorGUI extends JFrame {
                     pageInfoUpdater.update();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
+                }
+            }
+        });
+        // обработка кнопки копирования
+        copyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Set<Point> selectedCells = table.getSelectedCells();
+                try {
+                    byteCopier.copyBytes(
+                            openFile.getFile(),
+                            selectedCells,
+                            openFile.getColumnCount(),
+                            openFile.getCurrentPage(),
+                            openFile.getPageSize());
+                    openFile.loadFile(openFile.getFile());
+                    pageInfoUpdater.update();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+        // обработка byte Inserter
+        // Обработчик для кнопки вставки
+        insertButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Set<Point> selectedCells = table.getSelectedCells();
+                if (selectedCells.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Пожалуйста, выберите ячейку для вставки.");
+                    return;
+                }
+
+                try {
+                    ByteInserter byteInserter = new ByteInserter(byteCopier.getCopiedBytes());
+                    byteInserter.insertBytes(
+                            openFile.getFile(),
+                            selectedCells,
+                            openFile.getColumnCount(),
+                            openFile.getCurrentPage(),
+                            openFile.getPageSize());
+                    openFile.loadFile(openFile.getFile()); // Перезагрузить файл для обновления таблицы
+                    pageInfoUpdater.update(); // Обновить информацию о странице
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Ошибка при вставке байтов: " + ex.getMessage());
                 }
             }
         });
