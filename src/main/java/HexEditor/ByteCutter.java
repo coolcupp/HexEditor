@@ -6,11 +6,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
-public class ByteRemover {
+public class ByteCutter {
+    private List<Byte> removedBytes = new ArrayList<>();
 
-    public void removeBytes(File file, Set<Point> selectedCells, int columnCount, int currentPage, int pageSize) throws IOException {
+    public void cutBytes(File file, Set<Point> selectedCells, int columnCount, int currentPage, int pageSize) throws IOException {
         if (file == null) {
             throw new IOException("Файл не загружен.");
         }
@@ -21,7 +24,6 @@ public class ByteRemover {
             fis.read(fileContent);
         }
 
-        // Создаем новый массив, который будет содержать оставшиеся байты
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         boolean[] toDelete = new boolean[fileContent.length];
 
@@ -32,6 +34,7 @@ public class ByteRemover {
         for (Point point : selectedCells) {
             int index = startAddress + (point.y * columnCount + point.x - 2); // Общий индекс
             if (index >= 0 && index < fileContent.length) {
+                removedBytes.add(fileContent[index]); // Сохраняем удаляемые байты
                 toDelete[index] = true;
             }
         }
@@ -47,5 +50,12 @@ public class ByteRemover {
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(outputStream.toByteArray());
         }
+
+        // Выводим удаленные байты в консоль
+        System.out.println("Удаленные байты: " + removedBytes);
+    }
+
+    public List<Byte> getRemovedBytes() {
+        return removedBytes;
     }
 }

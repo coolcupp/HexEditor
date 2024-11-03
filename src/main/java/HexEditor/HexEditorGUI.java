@@ -188,53 +188,27 @@ public class HexEditorGUI extends JFrame {
         lowerPanel.add(deleteBytesButton);
         JButton deleteBytesWithPaddingButton = new JButton("Delete with padding");
         lowerPanel.add(deleteBytesWithPaddingButton);
+        JButton cutButton = new JButton("Cut Bytes");
+        lowerPanel.add(cutButton);
+        JButton cutWithPaddingButton = new JButton("Cut with padding");
+        lowerPanel.add(cutWithPaddingButton);
+        JButton copyButton = new JButton("Copy Bytes");
 
 
 
         // Инициализация ByteRemover
         ByteRemover byteRemover = new ByteRemover();
         ByteRemoverWithPadding byteRemoverWithPadding = new ByteRemoverWithPadding();
-        // Добавление обработчика для кнопки удаления
-//        deleteBytesButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                int[] selectedRows = table.getSelectedRows();
-//                if (selectedRows.length == 0) {
-//                    JOptionPane.showMessageDialog(null, "Пожалуйста, выберите диапазон байтов для удаления.");
-//                    return;
-//                }
-//
-//                // Предполагаем, что удаляем байты с первой выделенной строки до последней
-//                int startRow = selectedRows[0];
-//                int endRow = selectedRows[selectedRows.length - 1];
-//
-//                try {
-//                    byteRemover.removeBytes(openFile.getFile(), startRow, endRow, openFile.getPageSize(), openFile.getColumnCount());
-//                    openFile.loadFile(openFile.getFile()); // Перезагрузить файл для обновления таблицы
-//                    pageInfoUpdater.update(); // Обновить информацию о странице
-//                } catch (IOException ex) {
-//                    JOptionPane.showMessageDialog(null, "Ошибка при удалении байтов: " + ex.getMessage());
-//                }
-//            }
-//        });
-//        deleteBytesButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                Set<Point> selectedCells = table.getSelectedCells();
-//                if (selectedCells.isEmpty()) {
-//                    JOptionPane.showMessageDialog(null, "Пожалуйста, выберите байты для удаления.");
-//                    return;
-//                }
-//
-//                try {
-//                    byteRemover.removeBytes(openFile.getFile(), selectedCells, openFile.getColumnCount());
-//                    openFile.loadFile(openFile.getFile()); // Перезагрузить файл для обновления таблицы
-//                    pageInfoUpdater.update(); // Обновить информацию о странице
-//                } catch (IOException ex) {
-//                    JOptionPane.showMessageDialog(null, "Ошибка при удалении байтов: " + ex.getMessage());
-//                }
-//            }
-//        });
+        // byte cutter
+        ByteCutter byteCutter = new ByteCutter();
+        ByteCutterWithPadding byteCutterWithPadding = new ByteCutterWithPadding();
+        // byte copier
+        ByteCopier byteCopier = new ByteCopier();
+
+
+
+
+        // обработка кнопки удаления
         deleteBytesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -269,6 +243,44 @@ public class HexEditorGUI extends JFrame {
                     pageInfoUpdater.update(); // Обновить информацию о странице
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Ошибка при замене байтов: " + ex.getMessage());
+                }
+            }
+        });
+        // обработка кнопки вырезки
+        cutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Set<Point> selectedCells = table.getSelectedCells();
+                try {
+                    byteCutter.cutBytes(
+                            openFile.getFile(),
+                            selectedCells,
+                            openFile.getColumnCount(),
+                            openFile.getCurrentPage(),
+                            openFile.getPageSize());
+                    openFile.loadFile(openFile.getFile());
+                    pageInfoUpdater.update();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+        // обработка кнопки вырезки
+        cutWithPaddingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Set<Point> selectedCells = table.getSelectedCells();
+                try {
+                    byteCutterWithPadding.cutBytesWithPadding(
+                            openFile.getFile(),
+                            selectedCells,
+                            openFile.getColumnCount(),
+                            openFile.getCurrentPage(),
+                            openFile.getPageSize());
+                    openFile.loadFile(openFile.getFile());
+                    pageInfoUpdater.update();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
                 }
             }
         });
