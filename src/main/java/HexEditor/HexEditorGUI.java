@@ -196,17 +196,24 @@ public class HexEditorGUI extends JFrame {
         lowerPanel.add(copyButton);
         JButton insertButton = new JButton("Insert Bytes");
         lowerPanel.add(insertButton);
+        JButton replaceButton = new JButton("Replace Button");
+        lowerPanel.add(replaceButton);
 
 
+
+        // инициализация буфера
+        ByteBuffer byteBuffer = new ByteBuffer();
 
         // Инициализация ByteRemover
         ByteRemover byteRemover = new ByteRemover();
         ByteRemoverWithPadding byteRemoverWithPadding = new ByteRemoverWithPadding();
         // byte cutter
-        ByteCutter byteCutter = new ByteCutter();
-        ByteCutterWithPadding byteCutterWithPadding = new ByteCutterWithPadding();
+        ByteCutter byteCutter = new ByteCutter(byteBuffer);
+        ByteCutterWithPadding byteCutterWithPadding = new ByteCutterWithPadding(byteBuffer);
         // byte copier
-        ByteCopier byteCopier = new ByteCopier();
+        ByteCopier byteCopier = new ByteCopier(byteBuffer);
+        // replacer
+        ByteReplacer byteReplacer = new ByteReplacer(byteBuffer);
 
 
 
@@ -318,7 +325,8 @@ public class HexEditorGUI extends JFrame {
                 }
 
                 try {
-                    ByteInserter byteInserter = new ByteInserter(byteCopier.getCopiedBytes());
+                    // убеждаемся что есть byteBuffer
+                    ByteInserter byteInserter = new ByteInserter(byteBuffer);
                     byteInserter.insertBytes(
                             openFile.getFile(),
                             selectedCells,
@@ -329,6 +337,26 @@ public class HexEditorGUI extends JFrame {
                     pageInfoUpdater.update(); // Обновить информацию о странице
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "Ошибка при вставке байтов: " + ex.getMessage());
+                }
+            }
+        });
+        // replace button
+        // Пример обработчика события для замены байтов
+        replaceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Set<Point> selectedCells = table.getSelectedCells();
+                try {
+                    byteReplacer.replaceBytes(
+                            openFile.getFile(),
+                            selectedCells,
+                            openFile.getColumnCount(),
+                            openFile.getCurrentPage(),
+                            openFile.getPageSize());
+                    openFile.loadFile(openFile.getFile()); // Перезагрузить файл для обновления таблицы
+                    pageInfoUpdater.update(); // Обновить информацию о странице
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Ошибка при замене байтов: " + ex.getMessage());
                 }
             }
         });
