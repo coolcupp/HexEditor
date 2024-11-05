@@ -69,10 +69,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-public class ByteReplacer {
+public class ByteInserterWithChanging {
     private ByteBuffer byteBuffer;
 
-    public ByteReplacer(ByteBuffer byteBuffer) {
+    public ByteInserterWithChanging(ByteBuffer byteBuffer) {
         this.byteBuffer = byteBuffer;
     }
 

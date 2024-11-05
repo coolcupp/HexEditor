@@ -201,10 +201,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ByteCutter {
+public class ByteCutterWithShift {
     private ByteBuffer byteBuffer;
 
-    public ByteCutter(ByteBuffer byteBuffer) {
+    public ByteCutterWithShift(ByteBuffer byteBuffer) {
         this.byteBuffer = byteBuffer;
     }
 

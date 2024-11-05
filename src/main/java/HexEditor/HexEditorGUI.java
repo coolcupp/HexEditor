@@ -209,15 +209,15 @@ public class HexEditorGUI extends JFrame {
         ByteBuffer byteBuffer = new ByteBuffer();
 
         // Инициализация ByteRemover
-        ByteRemover byteRemover = new ByteRemover();
-        ByteRemoverWithPadding byteRemoverWithPadding = new ByteRemoverWithPadding();
+        ByteRemoverWithShift byteRemoverWithShift = new ByteRemoverWithShift();
+        ByteRemoverWithZeros byteRemoverWithZeros = new ByteRemoverWithZeros();
         // byte cutter
-        ByteCutter byteCutter = new ByteCutter(byteBuffer);
-        ByteCutterWithPadding byteCutterWithPadding = new ByteCutterWithPadding(byteBuffer);
+        ByteCutterWithShift byteCutterWithShift = new ByteCutterWithShift(byteBuffer);
+        ByteCutterWithZeros byteCutterWithZeros = new ByteCutterWithZeros(byteBuffer);
         // byte copier
         ByteCopier byteCopier = new ByteCopier(byteBuffer);
         // replacer
-        ByteReplacer byteReplacer = new ByteReplacer(byteBuffer);
+        ByteInserterWithChanging byteInserterWithChanging = new ByteInserterWithChanging(byteBuffer);
 
 
 
@@ -233,7 +233,7 @@ public class HexEditorGUI extends JFrame {
                 }
 
                 try {
-                    byteRemover.removeBytes(openFile.getFile(), selectedCells, openFile.getColumnCount(), openFile.getCurrentPage(), openFile.getPageSize());
+                    byteRemoverWithShift.removeBytes(openFile.getFile(), selectedCells, openFile.getColumnCount(), openFile.getCurrentPage(), openFile.getPageSize());
                     openFile.loadFile(openFile.getFile()); // Перезагрузить файл для обновления таблицы
                     pageInfoUpdater.update(); // Обновить информацию о странице
                 } catch (IOException ex) {
@@ -251,8 +251,8 @@ public class HexEditorGUI extends JFrame {
                 }
 
                 try {
-                    ByteRemoverWithPadding byteRemoverWithPadding = new ByteRemoverWithPadding();
-                    byteRemoverWithPadding.removeBytesWithPadding(openFile.getFile(), selectedCells, openFile.getColumnCount(), openFile.getCurrentPage(), openFile.getPageSize());
+                    ByteRemoverWithZeros byteRemoverWithZeros = new ByteRemoverWithZeros();
+                    byteRemoverWithZeros.removeBytesWithPadding(openFile.getFile(), selectedCells, openFile.getColumnCount(), openFile.getCurrentPage(), openFile.getPageSize());
                     openFile.loadFile(openFile.getFile()); // Перезагрузить файл для обновления таблицы
                     pageInfoUpdater.update(); // Обновить информацию о странице
                 } catch (IOException ex) {
@@ -266,7 +266,7 @@ public class HexEditorGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Set<Point> selectedCells = table.getSelectedCells();
                 try {
-                    byteCutter.cutBytes(
+                    byteCutterWithShift.cutBytes(
                             openFile.getFile(),
                             selectedCells,
                             openFile.getColumnCount(),
@@ -285,7 +285,7 @@ public class HexEditorGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Set<Point> selectedCells = table.getSelectedCells();
                 try {
-                    byteCutterWithPadding.cutBytesWithPadding(
+                    byteCutterWithZeros.cutBytesWithPadding(
                             openFile.getFile(),
                             selectedCells,
                             openFile.getColumnCount(),
@@ -330,8 +330,8 @@ public class HexEditorGUI extends JFrame {
 
                 try {
                     // убеждаемся что есть byteBuffer
-                    ByteInserter byteInserter = new ByteInserter(byteBuffer);
-                    byteInserter.insertBytes(
+                    ByteInserterWithShift byteInserterWithShift = new ByteInserterWithShift(byteBuffer);
+                    byteInserterWithShift.insertBytes(
                             openFile.getFile(),
                             selectedCells,
                             openFile.getColumnCount(),
@@ -351,7 +351,7 @@ public class HexEditorGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Set<Point> selectedCells = table.getSelectedCells();
                 try {
-                    byteReplacer.replaceBytes(
+                    byteInserterWithChanging.replaceBytes(
                             openFile.getFile(),
                             selectedCells,
                             openFile.getColumnCount(),
@@ -453,11 +453,14 @@ public class HexEditorGUI extends JFrame {
         FileViewer fileViewer = new FileViewer(textArea);
         openFile = new OpenFile(table, rowsComboBox, colsComboBox, fileViewer);
 
+
+
         // Page info updater
         pageInfoUpdater = new PageInfoUpdater(pageInfoLabel, currentPageField, openFile);
 
         // Initialize tableResizer
         TableResizer tableResizer = new TableResizer(openFile, rowsComboBox, colsComboBox, pageInfoUpdater);
+
 
         // Add action listeners to file buttons
         openItem.addActionListener(new ActionListener() {

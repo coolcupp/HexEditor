@@ -129,10 +129,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ByteCutterWithPadding {
+public class ByteCutterWithZeros {
     private ByteBuffer byteBuffer;
 
-    public ByteCutterWithPadding(ByteBuffer byteBuffer) {
+    public ByteCutterWithZeros(ByteBuffer byteBuffer) {
         this.byteBuffer = byteBuffer;
     }
 

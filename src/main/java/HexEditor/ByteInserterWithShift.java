@@ -77,10 +77,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-public class ByteInserter {
+public class ByteInserterWithShift {
     private ByteBuffer byteBuffer;
 
-    public ByteInserter(ByteBuffer byteBuffer) {
+    public ByteInserterWithShift(ByteBuffer byteBuffer) {
         this.byteBuffer = byteBuffer;
     }
 
