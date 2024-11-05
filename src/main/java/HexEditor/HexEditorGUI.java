@@ -39,6 +39,10 @@ public class HexEditorGUI extends JFrame {
         fileMenu.add(exitItem);
         menuBar.add(fileMenu);
 
+        // popup menu
+        JPopupMenu popupMenu = new JPopupMenu();
+
+
         // Create Rows and Columns JComboBoxes
         String[] values = new String[64];
         for (int i = 1; i <= 64; i++) {
@@ -125,7 +129,7 @@ public class HexEditorGUI extends JFrame {
 
         // Create lower panel
         JPanel lowerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        lowerPanel.setPreferredSize(new Dimension(100, 130));
+        lowerPanel.setPreferredSize(new Dimension(100, 175));
 
         // Create table model and table
         DefaultTableModel tableModel = new DefaultTableModel();
