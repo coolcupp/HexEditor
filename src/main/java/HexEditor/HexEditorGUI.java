@@ -6,20 +6,16 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Set;
 
 
 public class HexEditorGUI extends JFrame {
-    private JTextArea textArea;
-    private OpenFile openFile;
-    private JComboBox<String> rowsComboBox;
-    private JComboBox<String> colsComboBox;
-    private JLabel pageInfoLabel;
-    private JButton prevPageButton;
-    private JButton nextPageButton;
-    private JTextField currentPageField;
-    private JButton goToPageButton;
-    private PageInfoUpdater pageInfoUpdater;
+    private final OpenFile openFile;
+    private final JComboBox<String> rowsComboBox;
+    private final JComboBox<String> colsComboBox;
+    private final JTextField currentPageField;
+    private final PageInfoUpdater pageInfoUpdater;
 
     public HexEditorGUI() {
         this.setTitle("Hex editor by coolcupp");
@@ -31,16 +27,11 @@ public class HexEditorGUI extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         JMenuItem openItem = new JMenuItem("Open");
-        JMenuItem saveItem = new JMenuItem("Save");
         JMenuItem exitItem = new JMenuItem("Exit");
         fileMenu.add(openItem);
-        fileMenu.add(saveItem);
         fileMenu.addSeparator();
         fileMenu.add(exitItem);
         menuBar.add(fileMenu);
-
-        // popup menu
-        JPopupMenu popupMenu = new JPopupMenu();
 
 
         // Create Rows and Columns JComboBoxes
@@ -64,7 +55,7 @@ public class HexEditorGUI extends JFrame {
         increaseRowsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int currentValue = Integer.parseInt((String) rowsComboBox.getSelectedItem());
+                int currentValue = Integer.parseInt((String) Objects.requireNonNull(rowsComboBox.getSelectedItem()));
                 if (currentValue < 64) {
                     rowsComboBox.setSelectedItem(String.valueOf(currentValue + 1));
                     pageInfoUpdater.update();
@@ -75,7 +66,7 @@ public class HexEditorGUI extends JFrame {
         decreaseRowsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int currentValue = Integer.parseInt((String) rowsComboBox.getSelectedItem());
+                int currentValue = Integer.parseInt((String) Objects.requireNonNull(rowsComboBox.getSelectedItem()));
                 if (currentValue > 1) {
                     rowsComboBox.setSelectedItem(String.valueOf(currentValue - 1));
                     pageInfoUpdater.update();
@@ -86,7 +77,7 @@ public class HexEditorGUI extends JFrame {
         increaseColsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int currentValue = Integer.parseInt((String) colsComboBox.getSelectedItem());
+                int currentValue = Integer.parseInt((String) Objects.requireNonNull(colsComboBox.getSelectedItem()));
                 if (currentValue < 64) {
                     colsComboBox.setSelectedItem(String.valueOf(currentValue + 1));
                     pageInfoUpdater.update();
@@ -97,7 +88,7 @@ public class HexEditorGUI extends JFrame {
         decreaseColsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int currentValue = Integer.parseInt((String) colsComboBox.getSelectedItem());
+                int currentValue = Integer.parseInt((String) Objects.requireNonNull(colsComboBox.getSelectedItem()));
                 if (currentValue > 1) {
                     colsComboBox.setSelectedItem(String.valueOf(currentValue - 1));
                     pageInfoUpdater.update();
@@ -122,7 +113,7 @@ public class HexEditorGUI extends JFrame {
         this.setJMenuBar(menuBar);
 
         // Create a text pane for file view
-        textArea = new JTextArea();
+        JTextArea textArea = new JTextArea();
         textArea.setFont(new Font("Arial", Font.PLAIN, 14));
         textArea.setEditable(false);
         textArea.setLineWrap(true);
@@ -386,9 +377,9 @@ public class HexEditorGUI extends JFrame {
         this.add(lowerPanel, BorderLayout.SOUTH);
 
         // Create pagination controls
-        prevPageButton = new JButton("Previous");
-        nextPageButton = new JButton("Next");
-        pageInfoLabel = new JLabel("Page: 1/1");
+        JButton prevPageButton = new JButton("Previous");
+        JButton nextPageButton = new JButton("Next");
+        JLabel pageInfoLabel = new JLabel("Page: 1/1");
 
         // Create field for current page
         currentPageField = new JTextField(3);
@@ -396,7 +387,7 @@ public class HexEditorGUI extends JFrame {
         currentPageField.setText("1");
 
         // Create Go button
-        goToPageButton = new JButton("Go");
+        JButton goToPageButton = new JButton("Go");
 
         prevPageButton.addActionListener(new ActionListener() {
             @Override
@@ -476,17 +467,6 @@ public class HexEditorGUI extends JFrame {
             }
         });
 
-        // Add save action Listener
-        saveItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                JFileChooser fileChooser = new JFileChooser();
-                int returnValue = fileChooser.showSaveDialog(null);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    // TODO: Реализуйте сохранение файла
-                }
-            }
-        });
 
         exitItem.addActionListener(new ActionListener() {
             @Override
