@@ -8,8 +8,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class TableSelectionHandler {
-    private JTable table;
-    private JTextArea textArea;
+    private final JTable table;
+    private final JTextArea textArea;
 
     public TableSelectionHandler(JTable table, JTextArea textArea) {
         this.table = table;

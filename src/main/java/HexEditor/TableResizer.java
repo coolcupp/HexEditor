@@ -5,15 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class TableResizer {
-    private OpenFile openFile;
-    private JComboBox<String> rowsComboBox;
-    private JComboBox<String> columnCountComboBox;
-    private PageInfoUpdater pageInfoUpdater;
+    private final OpenFile openFile;
+    private final PageInfoUpdater pageInfoUpdater;
 
     public TableResizer(OpenFile openFile, JComboBox<String> rowsComboBox, JComboBox<String> columnCountComboBox, PageInfoUpdater pageInfoUpdater) {
         this.openFile = openFile;
-        this.rowsComboBox = rowsComboBox;
-        this.columnCountComboBox = columnCountComboBox;
         this.pageInfoUpdater = pageInfoUpdater;
 
         // Add action listeners to combo boxes

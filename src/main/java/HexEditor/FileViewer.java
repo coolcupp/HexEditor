@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class FileViewer {
-    private JTextArea textArea;
+    private final JTextArea textArea;
 
     public FileViewer(JTextArea textArea) {
         this.textArea = textArea;

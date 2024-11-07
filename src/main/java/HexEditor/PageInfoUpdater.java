@@ -3,9 +3,9 @@ package HexEditor;
 import javax.swing.*;
 
 public class PageInfoUpdater {
-    private JLabel pageInfoLabel;
-    private JTextField currentPageField;
-    private OpenFile openFile;
+    private final JLabel pageInfoLabel;
+    private final JTextField currentPageField;
+    private final OpenFile openFile;
 
     public PageInfoUpdater(JLabel pageInfoLabel, JTextField currentPageField, OpenFile openFile) {
         this.pageInfoLabel = pageInfoLabel;

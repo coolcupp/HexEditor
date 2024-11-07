@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ByteBuffer {
-    private List<Byte> buffer;
+    private final List<Byte> buffer;
 
     public ByteBuffer() {
         this.buffer = new ArrayList<>();
@@ -17,10 +17,6 @@ public class ByteBuffer {
 
     public List<Byte> getBuffer() {
         return new ArrayList<>(buffer); // Возвращаем копию буфера
-    }
-
-    public void clear() {
-        buffer.clear();
     }
 
     public boolean isEmpty() {

@@ -27,10 +27,8 @@ public class ByteRemoverWithZeros {
         int startAddress = (currentPage - 1) * pageSize * columnCount;
 
         // Устанавливаем байты в новый массив
-        for (int i = 0; i < fileContent.length; i++) {
-            // Предполагаем, что все байты изначально не заменены
-            modifiedContent[i] = fileContent[i];
-        }
+        // Предполагаем, что все байты изначально не заменены
+        System.arraycopy(fileContent, 0, modifiedContent, 0, fileContent.length);
 
         // Устанавливаем флаги для замены выделенных байтов на 00
         for (Point point : selectedCells) {

@@ -12,8 +12,8 @@ import java.util.Set;
 public class CustomTable extends JTable {
     private int startRow = -1;
     private int startCol = -1;
-    private Set<Point> selectedCells = new HashSet<>();
-    private DefaultTableModel tableModel;
+    private final Set<Point> selectedCells = new HashSet<>();
+    private final DefaultTableModel tableModel;
     private int selectionMode = 0; // 0 - стандарт, 1 - 2 байта, 2 - 4 байта, 3 - 8 байт
 
     public CustomTable(DefaultTableModel tableModel) {
@@ -131,8 +131,6 @@ public class CustomTable extends JTable {
     private void fillStandardSelection(int startRow, int startCol, int endRow, int endCol) {
         int minRow = Math.min(startRow, endRow);
         int maxRow = Math.max(startRow, endRow);
-        int minCol = Math.min(startCol, endCol);
-        int maxCol = Math.max(startCol, endCol);
 
         selectedCells.clear(); // Clear before new selection
 

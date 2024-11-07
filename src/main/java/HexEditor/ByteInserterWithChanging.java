@@ -1,64 +1,3 @@
-//package HexEditor;
-//
-//import java.awt.*;
-//import java.io.File;
-//import java.io.FileInputStream;
-//import java.io.FileOutputStream;
-//import java.io.IOException;
-//import java.util.List;
-//import java.util.Set;
-//
-//public class ByteReplacer {
-//    private ByteBuffer byteBuffer;
-//
-//    public ByteReplacer(ByteBuffer byteBuffer) {
-//        this.byteBuffer = byteBuffer;
-//    }
-//
-//    public void replaceBytes(File file, Set<Point> selectedCells, int columnCount, int currentPage, int pageSize) throws IOException {
-//        if (file == null || byteBuffer.isEmpty()) {
-//            throw new IOException("Файл не загружен или буфер пуст.");
-//        }
-//
-//        // Читаем содержимое файла
-//        byte[] fileContent = new byte[(int) file.length()];
-//        try (FileInputStream fis = new FileInputStream(file)) {
-//            fis.read(fileContent);
-//        }
-//
-//        // Вычисляем начальный адрес для текущей страницы
-//        int startAddress = (currentPage - 1) * pageSize * columnCount;
-//
-//        // Получаем байты из буфера
-//        List<Byte> bytesToReplace = byteBuffer.getBuffer();
-//
-//        // Переменная для отслеживания текущего индекса замены
-//        int bufferIndex = 0;
-//
-//        // Заменяем байты по выделенным ячейкам
-//        for (Point point : selectedCells) {
-//            int index = startAddress + (point.y * columnCount + point.x - 2); // Общий индекс
-//            if (index >= 0 && index < fileContent.length) {
-//                if (bufferIndex < bytesToReplace.size()) {
-//                    fileContent[index] = bytesToReplace.get(bufferIndex); // Заменяем байт
-//                    bufferIndex++; // Переходим к следующему байту в буфере
-//                } else {
-//                    // Если байтов в буфере не хватает, можно оставить оригинальные байты
-//                    break;
-//                }
-//            }
-//        }
-//
-//        // Сохраняем измененный файл
-//        try (FileOutputStream fos = new FileOutputStream(file)) {
-//            fos.write(fileContent);
-//        }
-//
-//        // Выводим заменённые байты в консоль
-//        System.out.println("Заменённые байты: " + bytesToReplace);
-//    }
-//}
-
 package HexEditor;
 
 import java.awt.*;
@@ -70,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 public class ByteInserterWithChanging {
-    private ByteBuffer byteBuffer;
+    private final ByteBuffer byteBuffer;
 
     public ByteInserterWithChanging(ByteBuffer byteBuffer) {
         this.byteBuffer = byteBuffer;
@@ -120,8 +59,5 @@ public class ByteInserterWithChanging {
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(fileContent);
         }
-
-        // Выводим заменённые байты в консоль
-        System.out.println("Заменённые байты: " + bytesToReplace);
     }
 }
