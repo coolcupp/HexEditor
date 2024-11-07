@@ -1,6 +1,8 @@
 package HexEditor;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
@@ -355,6 +357,55 @@ public class HexEditorGUI extends JFrame {
                 }
             }
         });
+        table.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                // Проверяем, что изменение произошло в ячейке
+                int row = e.getFirstRow();
+                int column = e.getColumn();
+                if (column == -1 || row == -1) {
+                    return; // Игнорируем некорректные события
+                }
+
+                // Получаем новое значение из таблицы
+                String newValue = (String) table.getValueAt(row, column);
+
+                // Проверяем, что введенное значение корректно
+                if (!ByteManualEditor.isValidByte(newValue)) { // Теперь вызываем через имя класса
+                    JOptionPane.showMessageDialog(null, "Ошибка: введено невалидное значение.");
+                    return;
+                }
+
+                try {
+                    // Преобразуем строку в байт (в формате Hex)
+                    byte newByteValue = (byte) Integer.parseInt(newValue, 16);
+
+                    // Рассчитываем страницу и размер
+                    Set<Point> selectedCells = table.getSelectedCells(); // Например, берем первую выделенную ячейку
+                    Point selectedCell = selectedCells.iterator().next(); // Например, берем первую ячейку
+                    int columnCount = openFile.getColumnCount();
+                    int currentPage = openFile.getCurrentPage();
+                    int pageSize = openFile.getPageSize();
+
+                    // Проверяем, что файл загружен
+                    if (openFile.getFile() == null) {
+                        throw new IOException("Файл не загружен.");
+                    }
+
+                    // Обновляем байт в файле
+                    ByteManualEditor.updateByteInFile(openFile.getFile(), columnCount, currentPage, pageSize, selectedCell, newByteValue);
+
+                    // Перезагружаем файл и обновляем интерфейс
+                    openFile.loadFile(openFile.getFile()); // Перезагрузка файла
+                    pageInfoUpdater.update(); // Обновление информации о странице
+
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Ошибка при обновлении файла: " + ex.getMessage());
+                }
+            }
+        });
+
+
 
 
 
