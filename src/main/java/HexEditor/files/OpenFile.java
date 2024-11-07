@@ -1,4 +1,4 @@
-package HexEditor;
+package HexEditor.files;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

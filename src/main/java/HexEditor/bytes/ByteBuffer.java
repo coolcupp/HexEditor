@@ -1,4 +1,4 @@
-package HexEditor;
+package HexEditor.bytes;
 
 import java.util.ArrayList;
 import java.util.List;

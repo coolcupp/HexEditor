@@ -1,4 +1,9 @@
-package HexEditor;
+package HexEditor.gui;
+
+import HexEditor.table.CustomTable;
+import HexEditor.files.FileViewer;
+import HexEditor.files.OpenFile;
+import HexEditor.bytes.*;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;

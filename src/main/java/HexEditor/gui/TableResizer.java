@@ -1,4 +1,6 @@
-package HexEditor;
+package HexEditor.gui;
+
+import HexEditor.files.OpenFile;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

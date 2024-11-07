@@ -1,4 +1,4 @@
-package HexEditor;
+package HexEditor.bytes;
 
 import java.awt.*;
 import java.io.File;

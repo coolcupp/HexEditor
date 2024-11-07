@@ -1,4 +1,6 @@
-package HexEditor;
+package HexEditor.gui;
+
+import HexEditor.table.CustomTable;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
