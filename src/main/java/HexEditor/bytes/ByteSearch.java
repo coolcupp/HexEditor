@@ -2,7 +2,6 @@ package HexEditor.bytes;
 
 import HexEditor.table.CustomTable;
 import HexEditor.gui.TableSelectionHandler;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;

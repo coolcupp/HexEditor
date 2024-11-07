@@ -4,7 +4,6 @@ import HexEditor.table.CustomTable;
 import HexEditor.files.FileViewer;
 import HexEditor.files.OpenFile;
 import HexEditor.bytes.*;
-
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -30,7 +29,7 @@ public class HexEditorGUI extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Create menu bar
+        // создание menubar
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         JMenuItem openItem = new JMenuItem("Open");
@@ -41,24 +40,23 @@ public class HexEditorGUI extends JFrame {
         menuBar.add(fileMenu);
 
 
-        // Create Rows and Columns JComboBoxes
+        // создание combobox для кол-ва строк и столбцов
         String[] values = new String[64];
         for (int i = 1; i <= 64; i++) {
             values[i - 1] = String.valueOf(i);
         }
-
         rowsComboBox = new JComboBox<>(values);
         colsComboBox = new JComboBox<>(values);
         rowsComboBox.setSelectedItem("16");
         colsComboBox.setSelectedItem("16");
 
-        // Create buttons for Rows and Columns
+        // создание "+" и "-" кнопок для изменения числа строк и столбцов
         JButton increaseRowsButton = new JButton("+");
         JButton decreaseRowsButton = new JButton("-");
         JButton increaseColsButton = new JButton("+");
         JButton decreaseColsButton = new JButton("-");
 
-        // Action listeners for the buttons
+        // добавление обработчиков событий к кнопкам
         increaseRowsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -69,7 +67,6 @@ public class HexEditorGUI extends JFrame {
                 }
             }
         });
-
         decreaseRowsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,7 +77,6 @@ public class HexEditorGUI extends JFrame {
                 }
             }
         });
-
         increaseColsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -91,7 +87,6 @@ public class HexEditorGUI extends JFrame {
                 }
             }
         });
-
         decreaseColsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -103,7 +98,7 @@ public class HexEditorGUI extends JFrame {
             }
         });
 
-        // Create a panel for the combo boxes and buttons
+        // создание панели для функционала ресайза таблицы
         JPanel comboPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         comboPanel.add(new JLabel("Rows:"));
         comboPanel.add(rowsComboBox);
@@ -113,23 +108,21 @@ public class HexEditorGUI extends JFrame {
         comboPanel.add(colsComboBox);
         comboPanel.add(decreaseColsButton);
         comboPanel.add(increaseColsButton);
-
         menuBar.add(Box.createHorizontalGlue());
         menuBar.add(comboPanel);
-
         this.setJMenuBar(menuBar);
 
-        // Create a text pane for file view
+        // создание текстовой области для файлового отображения
         JTextArea textArea = new JTextArea();
         textArea.setFont(new Font("Arial", Font.PLAIN, 14));
         textArea.setEditable(false);
         textArea.setLineWrap(true);
 
-        // Create lower panel
+        // создание нижней панели
         JPanel lowerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         lowerPanel.setPreferredSize(new Dimension(100, 175));
 
-        // Create table model and table
+        // создание таблицы и модели таблицы
         DefaultTableModel tableModel = new DefaultTableModel();
         CustomTable table = new CustomTable(tableModel);
         table.getTableHeader().setReorderingAllowed(false);
@@ -137,18 +130,16 @@ public class HexEditorGUI extends JFrame {
         table.setColumnSelectionAllowed(true);
         table.setRowSelectionAllowed(true);
 
-        // Create Scroll Pane and add table to it
+        // создание scrollpane для таблицы и отображения данных
         JScrollPane scrollPaneTable = new JScrollPane(table);
-
-        // Create Scroll Pane for textArea
         JScrollPane scrollPaneTextPane = new JScrollPane(textArea);
         scrollPaneTextPane.setPreferredSize(new Dimension(300, scrollPaneTextPane.getHeight()));
 
-        // Create search field
+        // создание поля поиска
         JTextField searchField = new JTextField("Поле для поиска", 20);
         searchField.setForeground(Color.GRAY);
 
-        // Adding FocusListener
+        // обработка поля поиска
         searchField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -157,7 +148,6 @@ public class HexEditorGUI extends JFrame {
                     searchField.setForeground(Color.BLACK);
                 }
             }
-
             @Override
             public void focusLost(FocusEvent e) {
                 if (searchField.getText().isEmpty()) {
@@ -167,6 +157,7 @@ public class HexEditorGUI extends JFrame {
             }
         });
 
+        // создание кнопок для поиска
         JRadioButton exactMatchButton = new JRadioButton("Точный поиск");
         JRadioButton maskMatchButton = new JRadioButton("Поиск по маске");
         ButtonGroup group = new ButtonGroup();
@@ -175,17 +166,17 @@ public class HexEditorGUI extends JFrame {
         exactMatchButton.setSelected(true);
         JButton searchButton = new JButton("Поиск");
 
-        // Make combobox
+        // создание combobox для выбора режима выделения
         JComboBox<String> modeComboBox = new JComboBox<>(new String[]{"Стандарт", "2 байта", "4 байта", "8 байт"});
 
-        // Create JTextPane for selection view
+        // создание панели для отображения информации о диапазоне байт
         JTextArea selectionView = new JTextArea();
         JScrollPane scrollPaneSelectionView = new JScrollPane(selectionView);
         scrollPaneSelectionView.setPreferredSize(new Dimension(300, 120));
-        SelectionInfo selectionInfo = new SelectionInfo(table, selectionView);
+        new SelectionInfo(table, selectionView);
 
 
-        // delete bytes button
+        // создание и добавление кнопок для операций над байтами
         JButton deleteBytesButton = new JButton("Delete Bytes");
         lowerPanel.add(deleteBytesButton);
         JButton deleteBytesWithPaddingButton = new JButton("Delete with padding");
@@ -202,25 +193,18 @@ public class HexEditorGUI extends JFrame {
         lowerPanel.add(replaceButton);
 
 
-
         // инициализация буфера
         ByteBuffer byteBuffer = new ByteBuffer();
 
-        // Инициализация ByteRemover
+        // инициализация объектов для работы с байтами
         ByteRemoverWithShift byteRemoverWithShift = new ByteRemoverWithShift();
-        ByteRemoverWithZeros byteRemoverWithZeros = new ByteRemoverWithZeros();
-        // byte cutter
         ByteCutterWithShift byteCutterWithShift = new ByteCutterWithShift(byteBuffer);
         ByteCutterWithZeros byteCutterWithZeros = new ByteCutterWithZeros(byteBuffer);
-        // byte copier
         ByteCopier byteCopier = new ByteCopier(byteBuffer);
-        // replacer
         ByteInserterWithChanging byteInserterWithChanging = new ByteInserterWithChanging(byteBuffer);
 
 
-
-
-        // обработка кнопки удаления
+        // обработка кнопок для операций над байтами
         deleteBytesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -258,7 +242,6 @@ public class HexEditorGUI extends JFrame {
                 }
             }
         });
-        // обработка кнопки вырезки
         cutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -277,7 +260,6 @@ public class HexEditorGUI extends JFrame {
                 }
             }
         });
-        // обработка кнопки вырезки
         cutWithPaddingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -296,7 +278,6 @@ public class HexEditorGUI extends JFrame {
                 }
             }
         });
-        // обработка кнопки копирования
         copyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -315,8 +296,6 @@ public class HexEditorGUI extends JFrame {
                 }
             }
         });
-        // обработка byte Inserter
-        // Обработчик для кнопки вставки
         insertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -325,7 +304,6 @@ public class HexEditorGUI extends JFrame {
                     JOptionPane.showMessageDialog(null, "Пожалуйста, выберите ячейку для вставки.");
                     return;
                 }
-
                 try {
                     // убеждаемся что есть byteBuffer
                     ByteInserterWithShift byteInserterWithShift = new ByteInserterWithShift(byteBuffer);
@@ -342,8 +320,6 @@ public class HexEditorGUI extends JFrame {
                 }
             }
         });
-        // replace button
-        // Пример обработчика события для замены байтов
         replaceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -362,6 +338,9 @@ public class HexEditorGUI extends JFrame {
                 }
             }
         });
+
+
+        // добавление слушателя на таблицу для реализации ручного редактирования ячейки пользователем
         table.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
@@ -380,7 +359,6 @@ public class HexEditorGUI extends JFrame {
                     JOptionPane.showMessageDialog(null, "Ошибка: введено невалидное значение.");
                     return;
                 }
-
                 try {
                     // Преобразуем строку в байт (в формате Hex)
                     byte newByteValue = (byte) Integer.parseInt(newValue, 16);
@@ -411,12 +389,7 @@ public class HexEditorGUI extends JFrame {
         });
 
 
-
-
-
-
-
-        // Add components to lowerPanel
+        // добавление компонентов в нижнюю панель
         lowerPanel.add(searchField);
         lowerPanel.add(exactMatchButton);
         lowerPanel.add(maskMatchButton);
@@ -424,27 +397,31 @@ public class HexEditorGUI extends JFrame {
         lowerPanel.add(modeComboBox);
         lowerPanel.add(scrollPaneSelectionView);
 
+
+        // обработчик выделения в таблице
         TableSelectionHandler tableSelectionHandler = new TableSelectionHandler(table, textArea);
         ByteSearch byteSearch = new ByteSearch(table, searchField, exactMatchButton, maskMatchButton, tableSelectionHandler);
 
-        // Adding components to frame
+        // добавление компонентов в frame
         this.add(scrollPaneTable, BorderLayout.CENTER);
         this.add(scrollPaneTextPane, BorderLayout.EAST);
         this.add(lowerPanel, BorderLayout.SOUTH);
 
-        // Create pagination controls
+        // создание кнопок навигации по страницам
         JButton prevPageButton = new JButton("Previous");
         JButton nextPageButton = new JButton("Next");
         JLabel pageInfoLabel = new JLabel("Page: 1/1");
 
-        // Create field for current page
+        // создание поля для отображения текущего номера страницы
         currentPageField = new JTextField(3);
         currentPageField.setHorizontalAlignment(JTextField.CENTER);
         currentPageField.setText("1");
 
-        // Create Go button
+        // создание кнопки перехода на страницу
         JButton goToPageButton = new JButton("Go");
 
+
+        // обработка кнопок навигации
         prevPageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -454,7 +431,6 @@ public class HexEditorGUI extends JFrame {
                 }
             }
         });
-
         nextPageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -464,7 +440,6 @@ public class HexEditorGUI extends JFrame {
                 }
             }
         });
-
         goToPageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -481,14 +456,6 @@ public class HexEditorGUI extends JFrame {
                 }
             }
         });
-
-        lowerPanel.add(prevPageButton);
-        lowerPanel.add(nextPageButton);
-        lowerPanel.add(currentPageField);
-        lowerPanel.add(goToPageButton);
-        lowerPanel.add(pageInfoLabel);
-
-        // Add searchButton listener
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -496,20 +463,23 @@ public class HexEditorGUI extends JFrame {
             }
         });
 
-        // Initialize file opener and viewer
+
+        // добавление компонентов в нижнюю панель
+        lowerPanel.add(prevPageButton);
+        lowerPanel.add(nextPageButton);
+        lowerPanel.add(currentPageField);
+        lowerPanel.add(goToPageButton);
+        lowerPanel.add(pageInfoLabel);
+
+
+        // инициализация объекта для открытия и отображения файла
         FileViewer fileViewer = new FileViewer(textArea);
         openFile = new OpenFile(table, rowsComboBox, colsComboBox, fileViewer);
-
-
-
-        // Page info updater
         pageInfoUpdater = new PageInfoUpdater(pageInfoLabel, currentPageField, openFile);
-
-        // Initialize tableResizer
-        TableResizer tableResizer = new TableResizer(openFile, rowsComboBox, colsComboBox, pageInfoUpdater);
+        new TableResizer(openFile, rowsComboBox, colsComboBox, pageInfoUpdater);
 
 
-        // Add action listeners to file buttons
+        // добавление различных слушателей на кнопки
         openItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -522,15 +492,12 @@ public class HexEditorGUI extends JFrame {
                 }
             }
         });
-
-
         exitItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 System.exit(0);
             }
         });
-
         modeComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

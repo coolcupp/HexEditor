@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -38,10 +39,7 @@ public class SelectionInfo {
 
         // Считываем выделенные байты в порядке возрастания
         List<Point> sortedCells = new ArrayList<>(selectedCells);
-        sortedCells.sort((p1, p2) -> {
-            int rowComparison = Integer.compare(p1.y, p2.y);
-            return rowComparison != 0 ? rowComparison : Integer.compare(p1.x, p2.x);
-        });
+        sortedCells.sort(Comparator.comparingInt((Point p) -> p.y).thenComparingInt(p -> p.x));
 
         for (Point point : sortedCells) {
             Object value = table.getValueAt(point.y, point.x);
