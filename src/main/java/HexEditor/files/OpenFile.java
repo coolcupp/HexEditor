@@ -5,13 +5,13 @@ import javax.swing.table.DefaultTableModel;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Objects;
 
 public class OpenFile {
-    private JTable table;
-    private DefaultTableModel tableModel;
-    private JComboBox<String> rowsComboBox;
-    private JComboBox<String> columnCountComboBox;
-    private FileViewer fileViewer;
+    private final DefaultTableModel tableModel;
+    private final JComboBox<String> rowsComboBox;
+    private final JComboBox<String> columnCountComboBox;
+    private final FileViewer fileViewer;
     private int currentPage = 1;
     private int totalPages = 1;
     private int pageSize;
@@ -19,7 +19,6 @@ public class OpenFile {
     private int columnCount;
 
     public OpenFile(JTable table, JComboBox<String> rowsComboBox, JComboBox<String> columnCountComboBox, FileViewer fileViewer) {
-        this.table = table;
         this.tableModel = (DefaultTableModel) table.getModel();
         this.rowsComboBox = rowsComboBox;
         this.columnCountComboBox = columnCountComboBox;
@@ -30,7 +29,7 @@ public class OpenFile {
         this.file = file;
 
         try {
-            columnCount = Integer.parseInt((String) columnCountComboBox.getSelectedItem());
+            columnCount = Integer.parseInt((String) Objects.requireNonNull(columnCountComboBox.getSelectedItem()));
             if (columnCount < 1) {
                 throw new NumberFormatException("Количество столбцов должно быть положительным.");
             }
@@ -42,7 +41,7 @@ public class OpenFile {
         // Получить количество строк из rowsComboBox
         int rowCount;
         try {
-            rowCount = Integer.parseInt((String) rowsComboBox.getSelectedItem());
+            rowCount = Integer.parseInt((String) Objects.requireNonNull(rowsComboBox.getSelectedItem()));
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Некорректное количество строк: " + e.getMessage());
             return;
