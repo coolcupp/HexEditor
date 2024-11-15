@@ -58,8 +58,5 @@ public class ByteCutterWithZeros {
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(modifiedContent);
         }
-
-        // Выводим удалённые байты из буфера в консоль
-        System.out.println("Обнулённые байты: " + byteBuffer.getBuffer());
     }
 }

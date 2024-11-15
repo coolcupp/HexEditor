@@ -64,7 +64,5 @@ public class ByteCutterWithShift {
             fos.write(outputStream.toByteArray());
         }
 
-        // Выводим удаленные байты из буфера в консоль
-        System.out.println("Вырезанные байты: " + removedBytes);
     }
 }

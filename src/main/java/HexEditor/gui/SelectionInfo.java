@@ -63,7 +63,6 @@ public class SelectionInfo {
 
     private void processByteValues(StringBuilder infoBuilder, List<Integer> byteValues) {
         int size = byteValues.size();
-        System.out.println("Byte Values: " + byteValues);
 
         if (size >= 1) {
             byte int8Value = (byte) (byteValues.get(0) & 0xFF);

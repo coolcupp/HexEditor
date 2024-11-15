@@ -112,7 +112,6 @@ public class OpenFile {
             protected void done() {
                 // Обновить текстовую область после загрузки файла
                 fileViewer.updateTextArea(tableModel);
-                System.out.println("Loading completed!");
             }
         };
 
